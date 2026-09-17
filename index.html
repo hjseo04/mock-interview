@@ -1,0 +1,1850 @@
+<title>양주백석고 AI 모의면접</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Nanum+Myeongjo:wght@700;800&display=swap">
+<style>
+  :root {
+    --bg: #f5f6f9;
+    --surface: #ffffff;
+    --surface-2: #eef1f6;
+    --ink: #1a222e;
+    --ink-soft: #4c5666;
+    --ink-faint: #838d9c;
+    --line: #dfe4ec;
+    --navy: #2b4a8b;
+    --navy-deep: #1f376a;
+    --navy-tint: #eaeff8;
+    --amber: #b4801f;
+    --amber-tint: #f7efdd;
+    --good: #2e7d57;
+    --bad: #c0503f;
+    --shadow: 0 1px 2px rgba(26,34,46,.06), 0 8px 24px -12px rgba(26,34,46,.18);
+    --shadow-lg: 0 12px 40px -14px rgba(31,55,106,.32);
+    --radius: 14px;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #10141b;
+      --surface: #1a212c;
+      --surface-2: #232c39;
+      --ink: #eef2f8;
+      --ink-soft: #b3bdcc;
+      --ink-faint: #7e8a9c;
+      --line: #2e3846;
+      --navy: #7ea2e0;
+      --navy-deep: #a7c1ee;
+      --navy-tint: #1e2a41;
+      --amber: #e0ad55;
+      --amber-tint: #2a2214;
+      --good: #5cc08f;
+      --bad: #e58572;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+      --shadow-lg: 0 16px 44px -16px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10141b;
+    --surface: #1a212c;
+    --surface-2: #232c39;
+    --ink: #eef2f8;
+    --ink-soft: #b3bdcc;
+    --ink-faint: #7e8a9c;
+    --line: #2e3846;
+    --navy: #7ea2e0;
+    --navy-deep: #a7c1ee;
+    --navy-tint: #1e2a41;
+    --amber: #e0ad55;
+    --amber-tint: #2a2214;
+    --good: #5cc08f;
+    --bad: #e58572;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+    --shadow-lg: 0 16px 44px -16px rgba(0,0,0,.7);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans KR", system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .serif { font-family: "Nanum Myeongjo", "Noto Sans KR", serif; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+  button { font-family: inherit; cursor: pointer; }
+  button:focus-visible, a:focus-visible, textarea:focus-visible, select:focus-visible, input:focus-visible {
+    outline: 2px solid var(--navy); outline-offset: 2px;
+  }
+  .app { max-width: 1040px; margin: 0 auto; padding: 0 22px 80px; }
+
+  /* ---- top bar ---- */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 20px 0 18px; gap: 12px; }
+  .brand { display: flex; align-items: center; gap: 11px; }
+  .crest {
+    width: 42px; height: 42px; border-radius: 10px; flex: none;
+    background: #fff; border: 1px solid var(--line);
+    display: grid; place-items: center; overflow: hidden; box-shadow: var(--shadow);
+  }
+  .crest img { width: 100%; height: 100%; object-fit: contain; padding: 3px; display: block; }
+  .brand-txt b { font-family: "Nanum Myeongjo", serif; font-size: 19px; letter-spacing: -.01em; display: block; line-height: 1.2; }
+  .brand-txt span { font-size: 11.5px; color: var(--ink-faint); letter-spacing: .06em; }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .school-badge {
+    font-size: 11.5px; font-weight: 700; letter-spacing: .02em; white-space: nowrap;
+    color: #fff; background: linear-gradient(150deg, var(--navy), var(--navy-deep));
+    padding: 6px 12px; border-radius: 20px; box-shadow: var(--shadow);
+  }
+  @media (max-width: 480px) { .school-badge { display: none; } }
+  .theme-btn {
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+    border-radius: 9px; width: 38px; height: 38px; font-size: 16px; display: grid; place-items: center; flex: none;
+  }
+  .theme-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+  /* ---- disclaimer notice ---- */
+  .notice {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--amber-tint); border: 1px solid color-mix(in srgb, var(--amber) 30%, transparent);
+    color: var(--ink-soft); border-radius: 12px; padding: 12px 15px; font-size: 12.8px; margin-bottom: 22px;
+  }
+  .notice b { color: var(--ink); }
+  .notice .ic { color: var(--amber); flex: none; font-weight: 700; }
+
+  /* ---- hero ---- */
+  .hero { margin: 6px 0 26px; }
+  .hero .eyebrow { color: var(--amber); font-weight: 700; font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; }
+  .hero h1 { font-family: "Nanum Myeongjo", serif; font-size: clamp(28px, 5vw, 40px); font-weight: 800; letter-spacing: -.02em; margin: 8px 0 10px; line-height: 1.18; }
+  .hero p { color: var(--ink-soft); max-width: none; font-size: 15.5px; line-height: 1.7; }
+
+  /* ---- card ---- */
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+  .card-pad { padding: 22px 24px; }
+
+  .field { margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+  label.lab { display: block; font-weight: 700; font-size: 13.5px; margin-bottom: 7px; }
+  label.lab .opt { color: var(--ink-faint); font-weight: 500; font-size: 12px; margin-left: 4px; }
+  .hint { font-size: 12px; color: var(--ink-faint); margin-top: 5px; }
+
+  select, input[type=text], textarea {
+    width: 100%; font-family: inherit; font-size: 14.5px; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 11px 13px; transition: border-color .15s;
+  }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23838d9c' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 34px; }
+  select:hover, input:hover, textarea:hover { border-color: var(--ink-faint); }
+  select:focus, input:focus, textarea:focus { border-color: var(--navy); }
+  textarea { resize: vertical; min-height: 96px; line-height: 1.6; }
+  select:disabled { opacity: .55; cursor: not-allowed; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ---- record input tabs (직접/PDF) ---- */
+  .rec-tabs { display: inline-flex; gap: 4px; background: var(--surface-2); padding: 3px; border-radius: 9px; margin-bottom: 11px; }
+  .rec-tab { border: none; background: transparent; color: var(--ink-soft); font-size: 13px; font-weight: 700; padding: 7px 14px; border-radius: 7px; transition: background .15s, color .15s; }
+  .rec-tab.active { background: var(--surface); color: var(--navy); box-shadow: var(--shadow); }
+  .pdf-zone { border: 1.5px dashed var(--line); border-radius: 11px; padding: 18px 16px; text-align: center; margin-bottom: 11px; background: var(--surface); transition: border-color .15s, background .15s; }
+  .pdf-zone.drag { border-color: var(--navy); background: var(--navy-tint); }
+  .pdf-status { font-size: 12.3px; color: var(--ink-faint); margin-top: 10px; line-height: 1.55; max-width: 52ch; margin-left: auto; margin-right: auto; }
+  .pdf-status.ok { color: var(--good); font-weight: 500; }
+  .pdf-status.err { color: var(--bad); font-weight: 500; }
+
+  /* ---- searchable combobox ---- */
+  .combo { position: relative; }
+  .combo-list {
+    position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 4px);
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    box-shadow: var(--shadow-lg); max-height: 264px; overflow-y: auto; padding: 5px;
+  }
+  .combo-item {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+    padding: 9px 11px; border-radius: 7px; cursor: pointer; font-size: 14px;
+  }
+  .combo-item:hover, .combo-item.active { background: var(--navy-tint); }
+  .combo-item small { color: var(--ink-faint); font-size: 11.5px; flex: none; }
+  .combo-empty { padding: 12px; color: var(--ink-faint); font-size: 13px; text-align: center; }
+
+  /* ---- mode radio cards ---- */
+  .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  @media (max-width: 560px) { .modes { grid-template-columns: 1fr; } }
+  .mode { border: 1.5px solid var(--line); border-radius: 11px; padding: 13px 14px; background: var(--surface); transition: all .15s; position: relative; }
+  .mode:hover { border-color: var(--navy); }
+  .mode.sel { border-color: var(--navy); background: var(--navy-tint); box-shadow: inset 0 0 0 1px var(--navy); }
+  .mode b { display: block; font-size: 14px; margin-bottom: 3px; }
+  .mode span { font-size: 11.8px; color: var(--ink-soft); line-height: 1.45; display: block; }
+  .mode input { position: absolute; opacity: 0; pointer-events: none; }
+
+  .official-box { margin-top: 13px; border: 1px solid var(--line); border-left: 3px solid var(--amber); border-radius: 10px; background: var(--surface-2); padding: 13px 15px; }
+  .official-box .oh { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13px; margin-bottom: 9px; }
+  .official-box .obadge { font-size: 10px; background: var(--amber); color: #fff; padding: 2px 8px; border-radius: 5px; letter-spacing: .02em; }
+  .official-box .obadge.no { background: var(--ink-faint); }
+  .official-box.no-interview { border-left-color: var(--ink-faint); }
+  .official-box .oformat { font-size: 12.7px; margin-bottom: 8px; }
+  .official-box ul { margin: 0 0 9px; padding-left: 17px; }
+  .official-box li { font-size: 12.3px; color: var(--ink-soft); line-height: 1.55; margin-bottom: 3px; }
+  .official-box .osrc { font-size: 12px; margin-top: 4px; }
+  .official-box a { color: var(--navy); font-weight: 600; text-decoration: none; }
+  .official-box a:hover { text-decoration: underline; }
+  .official-box .onote { font-size: 11.3px; color: var(--ink-faint); margin-top: 8px; line-height: 1.5; }
+
+  .crit-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .tag { font-size: 11.5px; background: var(--navy-tint); color: var(--navy-deep); border-radius: 20px; padding: 3px 11px; font-weight: 500; }
+  .tag.amber { background: var(--amber-tint); color: var(--amber); }
+
+  /* ---- buttons ---- */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: none; border-radius: 11px; font-weight: 700; font-size: 15px; padding: 13px 22px; transition: transform .08s, box-shadow .15s, background .15s; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--navy); color: #fff; box-shadow: var(--shadow-lg); }
+  .btn-primary:hover { background: var(--navy-deep); }
+  .btn-primary:disabled { background: var(--ink-faint); box-shadow: none; cursor: not-allowed; opacity: .7; }
+  .btn-ghost { background: var(--surface-2); color: var(--ink); }
+  .btn-ghost:hover { background: var(--line); }
+  .btn-outline { background: transparent; border: 1.5px solid var(--line); color: var(--ink-soft); }
+  .btn-outline:hover { border-color: var(--navy); color: var(--navy); }
+  .btn-block { width: 100%; }
+  .btn-lg { padding: 15px 26px; font-size: 16px; }
+
+  /* ---- saved list ---- */
+  .saved-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 15px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); margin-bottom: 9px; }
+  .saved-item:hover { border-color: var(--navy); }
+  .saved-meta b { font-size: 14px; }
+  .saved-meta span { display: block; font-size: 12px; color: var(--ink-faint); }
+  .score-chip { font-family: "Nanum Myeongjo", serif; font-weight: 800; font-size: 20px; color: var(--navy); flex: none; }
+  .link-btn { background: none; border: none; color: var(--ink-faint); font-size: 12px; text-decoration: underline; padding: 4px; }
+  .link-btn:hover { color: var(--bad); }
+
+  /* ---- interview screen ---- */
+  .iv-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 18px; }
+  .iv-head .ctx b { font-family: "Nanum Myeongjo", serif; font-size: 16px; }
+  .iv-head .ctx span { font-size: 12.5px; color: var(--ink-soft); }
+  .progress-wrap { display: flex; align-items: center; gap: 12px; }
+  .progress-num { font-size: 12.5px; color: var(--ink-soft); font-weight: 500; white-space: nowrap; }
+  .progress-bar { width: 130px; height: 7px; border-radius: 6px; background: var(--surface-2); overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--navy), var(--amber)); border-radius: 6px; transition: width .5s ease; }
+
+  .transcript { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
+  .bubble { display: flex; gap: 12px; }
+  .avatar { width: 36px; height: 36px; border-radius: 9px; flex: none; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+  .avatar.ai { background: linear-gradient(150deg, var(--navy), var(--navy-deep)); color: #fff; font-family: "Nanum Myeongjo", serif; }
+  .avatar.me { background: var(--surface-2); color: var(--ink-soft); }
+  .bubble-body { flex: 1; min-width: 0; }
+  .bubble-name { font-size: 11.5px; color: var(--ink-faint); font-weight: 700; letter-spacing: .04em; margin-bottom: 3px; }
+  .q-meta { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .badge { font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 6px; letter-spacing: .02em; }
+  .badge.type { background: var(--navy-tint); color: var(--navy-deep); }
+  .badge.ai { background: var(--amber-tint); color: var(--amber); border: 1px solid color-mix(in srgb, var(--amber) 25%, transparent); }
+  .badge.follow { background: color-mix(in srgb, var(--good) 14%, transparent); color: var(--good); }
+  .q-text { font-size: 16.5px; line-height: 1.62; color: var(--ink); }
+  .past-q .q-text { font-size: 15px; color: var(--ink-soft); }
+  .a-text { background: var(--surface-2); border-radius: 4px 12px 12px 12px; padding: 11px 14px; font-size: 14.5px; white-space: pre-wrap; color: var(--ink); }
+  .cur-card { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--navy); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 22px; margin-bottom: 16px; }
+  .thinking { display: flex; align-items: center; gap: 10px; color: var(--ink-soft); font-size: 14px; padding: 6px 0; }
+  .dots span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--navy); margin-right: 3px; animation: blink 1.2s infinite both; }
+  .dots span:nth-child(2){ animation-delay: .2s; } .dots span:nth-child(3){ animation-delay: .4s; }
+  @keyframes blink { 0%,80%,100%{ opacity: .25; } 40%{ opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .dots span, .progress-fill { animation: none; transition: none; } }
+
+  .answer-box { position: relative; }
+  .char-count { position: absolute; right: 12px; bottom: 10px; font-size: 11px; color: var(--ink-faint); font-variant-numeric: tabular-nums; pointer-events: none; }
+  .answer-actions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .answer-actions .grow { flex: 1; }
+
+  /* ---- report ---- */
+  .report-hero { text-align: center; padding: 30px 24px 26px; }
+  .report-hero .eyebrow { color: var(--amber); font-size: 12px; letter-spacing: .14em; font-weight: 700; text-transform: uppercase; }
+  .big-score { font-family: "Nanum Myeongjo", serif; font-weight: 800; font-size: 64px; line-height: 1; margin: 12px 0 4px; letter-spacing: -.02em; }
+  .big-score small { font-size: 24px; color: var(--ink-faint); font-weight: 700; }
+  .grade-word { font-size: 15px; color: var(--ink-soft); }
+  .report-ctx { font-size: 13px; color: var(--ink-faint); margin-top: 10px; }
+
+  .bars { display: flex; flex-direction: column; gap: 13px; }
+  .bar-row { display: grid; grid-template-columns: 92px 1fr 42px; align-items: center; gap: 12px; }
+  .bar-row .bl { font-size: 13.5px; font-weight: 500; }
+  .bar-track { height: 10px; background: var(--surface-2); border-radius: 6px; overflow: hidden; }
+  .bar-val { height: 100%; border-radius: 6px; transition: width .7s ease; }
+  .bar-row .bn { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 13.5px; }
+  @media (max-width: 480px) { .bar-row { grid-template-columns: 76px 1fr 38px; gap: 9px; } .bar-row .bl { font-size: 12px; } }
+
+  .fb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .fb-grid { grid-template-columns: 1fr; } }
+  .fb-block h3 { font-size: 14px; display: flex; align-items: center; gap: 7px; margin-bottom: 10px; }
+  .fb-block h3 .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .fb-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .fb-list li { font-size: 13.5px; color: var(--ink-soft); padding-left: 18px; position: relative; line-height: 1.55; }
+  .fb-list li::before { content: ""; position: absolute; left: 3px; top: 9px; width: 5px; height: 5px; border-radius: 50%; background: var(--ink-faint); }
+  .practice { counter-reset: pq; }
+  .practice li { padding-left: 30px; margin-bottom: 9px; }
+  .practice li::before { counter-increment: pq; content: counter(pq); background: var(--navy); color: #fff; width: 21px; height: 21px; border-radius: 6px; display: grid; place-items: center; font-size: 12px; font-weight: 700; left: 0; top: 2px; }
+
+  .sec-title { font-family: "Nanum Myeongjo", serif; font-size: 19px; font-weight: 800; margin-bottom: 4px; }
+  .sec-sub { font-size: 12.5px; color: var(--ink-faint); margin-bottom: 16px; }
+  .block-gap { margin-top: 18px; }
+
+  details.review { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); overflow: hidden; }
+  details.review summary { padding: 14px 18px; font-weight: 700; font-size: 14px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  details.review summary::-webkit-details-marker { display: none; }
+  details.review summary::after { content: "▾"; color: var(--ink-faint); transition: transform .2s; }
+  details.review[open] summary::after { transform: rotate(180deg); }
+  details.review .rv-body { padding: 4px 18px 18px; display: flex; flex-direction: column; gap: 16px; }
+  .rv-qa .rv-q { font-size: 14px; font-weight: 700; margin-bottom: 5px; }
+  .rv-qa .rv-a { font-size: 13.5px; color: var(--ink-soft); white-space: pre-wrap; padding-left: 12px; border-left: 2px solid var(--line); }
+
+  .report-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+
+  .banner-err { background: color-mix(in srgb, var(--bad) 10%, transparent); border: 1px solid color-mix(in srgb, var(--bad) 35%, transparent); color: var(--bad); border-radius: 11px; padding: 12px 15px; font-size: 13px; margin: 14px 0; }
+  .hidden { display: none !important; }
+  .foot { text-align: center; color: var(--ink-faint); font-size: 11.5px; margin-top: 40px; line-height: 1.7; }
+</style>
+
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="crest"><img src="data:image/png;base64,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" alt="양주백석고등학교 교표"></div>
+      <div class="brand-txt">
+        <b class="serif">양주백석고 AI 모의면접</b>
+        <span>양주백석고등학교 3학년 · 수시 면접 대비</span>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="school-badge">양주백석고 전용</span>
+      <button class="theme-btn" id="themeBtn" title="화면 밝기 전환" aria-label="화면 밝기 전환">◑</button>
+    </div>
+  </div>
+
+  <!-- ============ SETUP ============ -->
+  <section id="setup">
+    <div class="hero">
+      <div class="eyebrow">양주백석고등학교 · 3학년 수시 면접 대비</div>
+      <h1>지원 대학의 평가요소로<br>면접을 미리 연습하세요</h1>
+      <p><b>양주백석고 학생 여러분</b>을 위한 맞춤 면접 연습 공간입니다. 대학·전형·모집단위를 고르고 학생부 활동을 입력하면, AI 면접관이 질문하고 답변에 따라 꼬리질문을 이어간 뒤 7개 항목으로 평가해 개선 방향을 알려줍니다. 합격을 향한 여러분의 도전을 응원합니다.</p>
+    </div>
+
+    <div class="notice">
+      <span class="ic">ⓘ</span>
+      <div><b>이 앱의 모든 질문은 AI가 생성한 예상 질문</b>이며, 실제 대학 기출문항이 아닙니다. 전형명·평가요소는 연도별로 바뀔 수 있으니 실제 지원 전에는 반드시 해당 대학의 <b>모집요강</b>을 확인하세요.</div>
+    </div>
+
+    <div id="savedWrap" class="hidden" style="margin-bottom:22px;">
+      <div class="sec-title">지난 모의면접</div>
+      <div class="sec-sub">이 기기에 저장된 기록입니다.</div>
+      <div id="savedList"></div>
+    </div>
+
+    <div class="card card-pad">
+      <div class="grid-2">
+        <div class="field">
+          <label class="lab" for="uniSearch">대학 <span class="opt">(이름·지역으로 검색)</span></label>
+          <div class="combo">
+            <input type="text" id="uniSearch" placeholder="예: 국민 · 부산 · 교대" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="uniList" aria-autocomplete="list">
+            <div class="combo-list hidden" id="uniList" role="listbox"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="lab" for="selAdm">전형</label>
+          <select id="selAdm" disabled><option value="">먼저 대학을 선택하세요</option></select>
+        </div>
+      </div>
+
+      <div id="admInfo" class="hidden field">
+        <div class="hint" id="admType" style="margin-top:-6px;"></div>
+        <div class="crit-tags" id="admCrit"></div>
+        <div id="officialBox" class="official-box hidden"></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label class="lab" for="selDept">모집단위</label>
+          <select id="selDept" disabled><option value="">먼저 전형을 선택하세요</option></select>
+        </div>
+        <div class="field">
+          <label class="lab" for="inMajor">희망 전공·진로 <span class="opt">(선택)</span></label>
+          <input type="text" id="inMajor" placeholder="예: 소프트웨어 개발자">
+        </div>
+      </div>
+      <div id="deptCustomWrap" class="field hidden">
+        <label class="lab" for="inDept">모집단위 직접 입력</label>
+        <input type="text" id="inDept" placeholder="예: 데이터사이언스학과">
+      </div>
+
+      <div class="field">
+        <label class="lab">면접 유형</label>
+        <div class="modes" id="modes">
+          <label class="mode sel"><input type="radio" name="mode" value="기본형" checked>
+            <b>기본형</b><span>표준 난이도. 차분하게 연습</span></label>
+          <label class="mode"><input type="radio" name="mode" value="실전형">
+            <b>실전형</b><span>설명 최소화, 실제 면접처럼</span></label>
+          <label class="mode"><input type="radio" name="mode" value="압박형">
+            <b>압박형</b><span>답변의 논리를 파고드는 질문</span></label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lab" for="selCount">핵심 질문 수</label>
+        <select id="selCount">
+          <option value="4">4문항 (약 10분)</option>
+          <option value="6" selected>6문항 (약 15분)</option>
+          <option value="8">8문항 (약 20분)</option>
+        </select>
+        <div class="hint">각 질문마다 답변에 따라 꼬리질문이 최대 2개까지 추가될 수 있습니다.</div>
+      </div>
+
+      <div class="field">
+        <label class="lab">학생부(생기부) 입력 <span class="opt">(선택, 있으면 질문이 훨씬 좋아집니다)</span></label>
+        <div class="rec-tabs" role="tablist">
+          <button type="button" class="rec-tab active" id="tabType">✏️ 직접 입력</button>
+          <button type="button" class="rec-tab" id="tabPdf">📄 생기부 PDF 업로드</button>
+        </div>
+        <div id="pdfZone" class="pdf-zone hidden">
+          <input type="file" id="pdfInput" accept="application/pdf,.pdf" hidden>
+          <button type="button" class="btn btn-ghost" id="pdfPick">📄 생기부 PDF 파일 선택</button>
+          <div class="pdf-status" id="pdfStatus">PDF를 선택하거나 이 영역에 끌어다 놓으면, <b>이 기기(브라우저)에서만</b> 분석해 아래 칸을 자동으로 채웁니다. 파일은 서버나 앱에 저장되지 않습니다.</div>
+        </div>
+        <textarea id="inRecord" placeholder="교과·동아리·세특·독서·진로활동 등 본인이 직접 한 활동을 요약해 적어주세요.&#10;예) 정보 세특에서 팀장으로 학급 시간표 웹앱을 제작, 프론트엔드 화면과 데이터 저장 기능을 맡음. 동아리에서 인공지능 윤리 주제로 발표. 진로독서로 '클린 코드'를 읽고 협업의 중요성을 배움."></textarea>
+        <div class="hint">개인정보(이름·학교명·수상 실적 등)는 면접에 사용되지 않습니다. 블라인드 면접 원칙에 맞춰 활동 중심으로 진행됩니다.</div>
+      </div>
+    </div>
+
+    <div id="setupErr" class="banner-err hidden"></div>
+
+    <div style="margin-top:20px;">
+      <button class="btn btn-primary btn-lg btn-block" id="startBtn">모의면접 시작하기</button>
+      <div class="hint" style="text-align:center; margin-top:10px;" id="startHint">시작하면 Claude가 면접관 역할을 맡습니다. 처음 한 번 사용 동의를 물을 수 있습니다.</div>
+    </div>
+  </section>
+
+  <!-- ============ INTERVIEW ============ -->
+  <section id="interview" class="hidden">
+    <div class="iv-head">
+      <div class="ctx">
+        <b class="serif" id="ivUni">—</b>
+        <span id="ivMeta"></span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-num" id="ivProg">질문 준비 중</div>
+        <div class="progress-bar"><div class="progress-fill" id="ivFill" style="width:0%"></div></div>
+        <button class="btn btn-outline" id="endBtn" style="padding:8px 14px; font-size:13px;">면접 종료</button>
+      </div>
+    </div>
+
+    <div class="transcript" id="transcript"></div>
+
+    <div class="cur-card" id="curCard">
+      <div class="thinking" id="thinking"><span class="dots"><span></span><span></span><span></span></span> 면접관이 질문을 준비하고 있습니다…</div>
+      <div id="curQ" class="hidden">
+        <div class="bubble-name">AI 면접관</div>
+        <div class="q-meta" id="curMeta"></div>
+        <div class="q-text" id="curQText"></div>
+      </div>
+    </div>
+
+    <div id="answerZone" class="hidden">
+      <div class="answer-box">
+        <textarea id="answerInput" placeholder="여기에 답변을 입력하세요. 실제 활동과 본인의 역할·생각을 구체적으로 말할수록 좋은 피드백을 받습니다." style="min-height:130px;"></textarea>
+        <span class="char-count" id="charCount">0자</span>
+      </div>
+      <div class="answer-actions">
+        <button class="btn btn-primary grow" id="submitBtn">답변 제출</button>
+        <button class="btn btn-outline" id="finishEarlyBtn">여기까지만 하고 평가받기</button>
+      </div>
+    </div>
+    <div id="ivErr" class="banner-err hidden"></div>
+  </section>
+
+  <!-- ============ REPORT ============ -->
+  <section id="report" class="hidden">
+    <div class="card report-hero">
+      <div class="eyebrow">모의면접 결과 보고서</div>
+      <div class="big-score" id="repScore">—</div>
+      <div class="grade-word" id="repGrade"></div>
+      <div class="report-ctx" id="repCtx"></div>
+    </div>
+
+    <div class="card card-pad block-gap">
+      <div class="sec-title">항목별 평가</div>
+      <div class="sec-sub">각 항목 5점 만점 · AI 면접관의 답변 분석 결과입니다.</div>
+      <div class="bars" id="repBars"></div>
+    </div>
+
+    <div class="card card-pad block-gap">
+      <div class="fb-grid">
+        <div class="fb-block">
+          <h3><span class="dot" style="background:var(--good)"></span>잘한 점</h3>
+          <ul class="fb-list" id="repStrengths"></ul>
+        </div>
+        <div class="fb-block">
+          <h3><span class="dot" style="background:var(--amber)"></span>개선할 점</h3>
+          <ul class="fb-list" id="repImprove"></ul>
+        </div>
+      </div>
+      <div class="block-gap">
+        <h3 style="font-size:14px; display:flex; align-items:center; gap:7px; margin-bottom:12px;"><span class="dot" style="width:9px;height:9px;border-radius:50%;background:var(--navy);flex:none;"></span>추천 연습 질문</h3>
+        <ul class="fb-list practice" id="repPractice"></ul>
+      </div>
+    </div>
+
+    <div class="block-gap">
+      <details class="review">
+        <summary>면접 전체 다시 보기</summary>
+        <div class="rv-body" id="repReview"></div>
+      </details>
+    </div>
+
+    <div class="report-actions">
+      <button class="btn btn-primary" id="againBtn">같은 설정으로 다시 면접</button>
+      <button class="btn btn-ghost" id="newBtn">새 면접 설정</button>
+      <button class="btn btn-outline" id="printBtn">인쇄 / PDF 저장</button>
+    </div>
+  </section>
+
+  <div class="foot">
+    <b>양주백석고등학교</b> 진로진학 · AI 대학별 모의면접<br>
+    질문과 평가는 AI가 생성한 연습용 자료이며, 실제 합격 가능성을 보장하지 않습니다. 정확한 전형 정보는 각 대학 모집요강을 확인하세요.
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script>
+/* ============================================================
+   대학 · 전형 데이터 (2026 기준 · 예시 / 연습용)
+   ※ 평가요소·전형명은 참고용이며 실제 모집요강 확인 필요
+   ============================================================ */
+const UNIVERSITIES = [
+  { name: "서울대학교", region: "서울", admissions: [
+    { name: "일반전형", type: "제시문 기반 심층 면접 + 서류 확인", crit: ["학업능력","학업태도","학업 외 소양"],
+      depts: ["경영대학","사회과학대학","자연과학부","공과대학","인문대학","사범대학"],
+      official: {
+        format: "모집단위(계열)별 제시문 기반 면접 및 구술고사",
+        facts: [
+          "일반전형은 모집단위(계열)별로 제시문 기반 구술면접을 실시합니다.",
+          "인문·사회 계열은 국어·사회 등 제시문을 읽고 논지 요약·비교, 본인의 견해를 논리적으로 설명하는 방식이 중심입니다.",
+          "자연 계열은 수학·과학 제시문을 바탕으로 문제를 풀고 풀이 과정을 설명하는 방식이 중심입니다.",
+          "모집단위별로 정해진 시간 동안 답변을 준비한 뒤 교수 2인 이상과 면접합니다.",
+          "정답 자체보다 사고 과정·논리성·표현력을 평가합니다.",
+          "의과대학 등 일부 모집단위는 인·적성 면접(다중미니면접, MMI)을 별도로 실시합니다.",
+        ],
+        source: { name: "서울대학교 입학본부 · 기출문제 및 예시문항", url: "https://admission.snu.ac.kr/materials/downloads/samples", years: "연도별 공개" },
+        source2: { name: "서울대 입학정보 웹진 ‘아로리’", url: "https://snuarori.snu.ac.kr/" },
+      } },
+    { name: "지역균형전형", type: "서류 기반 확인 면접", crit: ["학업역량","자기주도성","공동체의식"],
+      depts: ["인문계열","자연계열","경영대학","공과대학"],
+      official: {
+        format: "제출서류(학생부) 기반 확인 면접",
+        facts: [
+          "지역균형전형 면접은 제출서류(학생부)를 바탕으로 한 개별 확인 면접으로, 정해진 공통 문항·제시문이 없습니다.",
+          "학생의 실제 활동·학업 태도·진로 등을 서류 근거로 확인하는 방식입니다.",
+        ],
+        source: { name: "서울대학교 입학본부 · 기출문제 및 예시문항", url: "https://admission.snu.ac.kr/materials/downloads/samples", years: "연도별 공개" },
+      } },
+  ]},
+  { name: "연세대학교", region: "서울", admissions: [
+    { name: "활동우수형", type: "제시문 기반 면접 (서류 확인 포함)", crit: ["학업역량","전공적합성","인성"],
+      depts: ["경영학과","언더우드학부","컴퓨터과학과","전기전자공학부","생명공학과"],
+      official: {
+        format: "제시문 기반 면접 (논리적 사고력·의사소통 능력 평가)",
+        facts: [
+          "활동우수형(의예과 제외)·기회균형·국제형 전형에서 면접을 실시합니다.",
+          "제시문을 바탕으로 논리적 사고력과 의사소통 능력을 평가합니다.",
+          "의예과는 제시문 기반 면접과 서류 기반 면접을 복수의 면접실에서 진행해 인·적성을 함께 평가합니다.",
+          "공식 보고서는 문항 유형·계열·출제 범위·예상 소요시간·출제 의도·출제 근거·예시답안까지 문항카드 형태로 공개합니다.",
+        ],
+        source: { name: "연세대학교 입학처 · 선행학습 영향평가 결과보고서", url: "https://admission.yonsei.ac.kr/", years: "연도별 공개" },
+      } },
+    { name: "학생부종합(면접형)", type: "서류 기반 확인 면접", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학과","사회과학계열","공학계열","자연계열"] },
+  ]},
+  { name: "고려대학교", region: "서울", admissions: [
+    { name: "학업우수전형", type: "서류 기반 면접 (일부 계열 제시문)", crit: ["학업역량","자기계발역량","인성"],
+      depts: ["경영대학","정경대학","컴퓨터학과","전기전자공학부","생명과학부"] },
+    { name: "계열적합전형", type: "제시문 기반 면접", crit: ["계열 적합성","학업역량","성장가능성"],
+      depts: ["자유전공학부","공과대학","정보대학","이과대학"],
+      official: {
+        format: "제시문 기반 면접 (준비 약 21분 · 면접 약 7분)",
+        facts: [
+          "계열적합전형은 제시문 기반 면접으로, 제시문을 읽고 분석해 주어진 문항에 답하는 방식입니다.",
+          "최근 기준 인문 계열 3문항, 자연 계열 4문항 수준으로 출제됐습니다.",
+          "제시문의 요지 파악, 제시문 간 관계 연결, 논리적 근거를 든 설명을 중점적으로 평가합니다.",
+          "공식 보고서에서 제시문·문항과 함께 문항 해설·출제 의도·채점 기준·예시답안을 모두 공개합니다.",
+        ],
+        source: { name: "고려대학교 입학처 · 입학자료실(기출문제)", url: "https://oku.korea.ac.kr/oku/cms/FR_CON/index.do?MENU_ID=720", years: "연도별 공개" },
+      } },
+  ]},
+  { name: "성균관대학교", region: "서울", admissions: [
+    { name: "융합형 / 탐구형", type: "서류 100% (면접 미실시)", crit: ["학업역량","개인역량","잠재역량"],
+      depts: ["글로벌경영학과","소프트웨어학과","반도체시스템공학과","자연과학계열","사회과학계열"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "융합형·탐구형 전형은 서류평가 100%로 선발하며 면접을 실시하지 않습니다.",
+          "면접은 성균인재·과학인재 등 단계별 전형에서 실시합니다(전형별로 상이).",
+        ],
+        source: { name: "성균관대학교 입학처 · 수시 모집요강", url: "https://admission.skku.edu/admission/html/rolling/guide.html", years: "연도별 공개" } } },
+  ]},
+  { name: "서강대학교", region: "서울", admissions: [
+    { name: "학생부종합(일반)", type: "서류 100% (면접 미실시)", crit: ["학업역량","성장가능성","공동체역량"],
+      depts: ["경영학부","경제학부","컴퓨터공학과","전자공학과","인문계열"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "학생부종합 일반전형은 면접 없이 서류평가 100%로 선발합니다(특성화고교 졸업자 전형 등 일부 제외).",
+          "면접평가와 수능 최저학력기준을 적용하지 않습니다.",
+        ],
+        source: { name: "서강대학교 입학처 · 수시 모집요강", url: "https://admission.sogang.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "한양대학교", region: "서울", admissions: [
+    { name: "학생부종합(추천형)", type: "학생부 기반 정성 평가", crit: ["비판적사고역량","창의적사고역량","자기주도역량","소통·협업역량"],
+      depts: ["경영학부","정책학과","컴퓨터소프트웨어학부","융합전자공학부","생명공학과"] },
+    { name: "학생부종합(면접형)", type: "면접 실시 (계열별 상이)", crit: ["비판적사고역량","창의적사고역량","자기주도역량","소통·협업역량"],
+      depts: ["사범대학","한양인터칼리지학부(자연)","공과대학 일부","교육공학과","응용미술교육과"],
+      official: { format: "면접형 전형 면접 (계열에 따라 제시문 기반 또는 학생부 기반)",
+        facts: [
+          "면접형 전형에서만 면접을 실시합니다(추천형·서류형은 면접 없음).",
+          "사범대학은 학교생활기록부 기반 면접, 한양인터칼리지학부(자연)·공과대학 일부는 제시문 기반 면접으로 진행됩니다.",
+          "1단계에서 서류로 7배수를 선발하고, 2단계 면접 반영 비율은 30%입니다.",
+          "입학처가 면접형 제시문 기반 면접의 예시 문항을 공개합니다.",
+        ],
+        source: { name: "한양대학교 입학처", url: "https://go.hanyang.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "중앙대학교", region: "서울", admissions: [
+    { name: "CAU융합형인재 (구 다빈치형)", type: "서류 100% (면접 미실시)", crit: ["학업역량","탐구역량","발전가능성","인성"],
+      depts: ["경영학부","소프트웨어학부","AI학과","미디어커뮤니케이션학부","화학신소재공학부"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "CAU융합형인재(옛 다빈치형인재)는 서류 100%로 선발하며, 이전에 있던 2단계 면접이 폐지되었습니다.",
+          "면접을 준비하려면 CAU탐구형인재 전형을 확인하세요.",
+        ],
+        source: { name: "중앙대학교 입학처 · 학생부전형 가이드북", url: "https://admission.cau.ac.kr/", years: "연도별 공개" } } },
+    { name: "CAU탐구형인재 (구 탐구형)", type: "2단계 서류 기반 면접", crit: ["탐구역량","전공적합성","학업역량"],
+      depts: ["소프트웨어학부","물리학과","화학과","생명과학과","경제학부"],
+      official: { format: "2단계 개별 면접 (서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류평가로 일정 배수를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 최종 선발합니다.",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로, 탐구역량·전공적합성 등을 확인합니다.",
+        ],
+        source: { name: "중앙대학교 입학처 · 학생부전형 가이드북", url: "https://admission.cau.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "경희대학교", region: "서울", admissions: [
+    { name: "네오르네상스전형", type: "2단계 서류 기반 면접 (서류 70% + 면접 30%)", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["경영학과","소프트웨어융합학과","컴퓨터공학부","한의예과","정치외교학과"],
+      official: { format: "2단계 개별 면접 (1단계 서류 3배수 → 서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류평가로 3배수를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "서류평가는 학업역량 40%·진로역량 40%·공동체역량 20% 비율로 반영합니다(자율전공은 진로역량 대신 자기주도역량).",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로 진행됩니다.",
+        ],
+        source: { name: "경희대학교 입학처", url: "https://iphak.khu.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "국민대학교", region: "서울", admissions: [
+    { name: "국민프런티어전형", type: "2단계 서류기반 개별 면접 (서류 70% + 면접 30%)", crit: ["자기주도성","성장가능성","전공적합성","공동체의식"],
+      depts: ["소프트웨어학부","AI빅데이터융합학과","경영학부","기계공학부","자동차공학과"],
+      official: { format: "2단계 서류기반 개별 블라인드 면접 (서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류평가로 3배수를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "입학사정관 2인과 지원자 1인의 개별 블라인드 면접으로 10분 이내 진행됩니다.",
+          "활동의 계기·과제의식·수행 과정·결과를 꼬리질문으로 확인합니다.",
+        ],
+        source: { name: "국민대학교 입학처", url: "https://ipsi.kookmin.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "숭실대학교", region: "서울", admissions: [
+    { name: "SSU미래인재(면접형)", type: "2단계 서류기반 면접 (서류 50% + 면접 50%)", crit: ["전공적합성","잠재력"],
+      depts: ["컴퓨터학부","AI융합학부","글로벌미디어학부","경영학부","전자정보공학부"],
+      official: { format: "2단계 서류기반 블라인드 면접 (서류 50% + 면접 50%)",
+        facts: [
+          "1단계에서 서류종합평가 100%로 약 3~3.5배수를 선발한 뒤, 2단계에서 서류 50%와 면접 50%로 선발합니다.",
+          "약 12분간 서류기반 블라인드 면접으로 진행되며, 전공적합성 50%·잠재력 50%로 평가합니다.",
+          "전공 이해와 지원 동기, 탐구활동의 동기·과정, 자기평가·개선 경험, 인성·태도가 주요 판단 기준입니다.",
+        ],
+        source: { name: "숭실대학교 입학처", url: "https://iphak.ssu.ac.kr/", years: "연도별 공개" } } },
+    { name: "SSU미래인재(서류형)", type: "서류 100% (면접 미실시)", crit: ["탐구역량","공동체역량","학업역량"],
+      depts: ["컴퓨터학부","AI융합학부","글로벌미디어학부","경영학부","전자정보공학부"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "SSU미래인재-서류형은 서류종합평가 100%로 선발하며 면접을 실시하지 않습니다.",
+          "학생부 기반으로 탐구역량 60%·공동체역량 30%·학업역량 10%를 평가합니다.",
+        ],
+        source: { name: "숭실대학교 입학처", url: "https://iphak.ssu.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "건국대학교", region: "서울", admissions: [
+    { name: "KU자기추천전형", type: "2단계 서류 기반 면접", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학과","컴퓨터공학부","전기전자공학부","화학공학부","미디어커뮤니케이션학과"],
+      official: { format: "2단계 서류 기반 개별 면접 (서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류평가로 3배수를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "제출서류(학생부)에 기반해 학업역량·진로역량·공동체역량을 확인하는 개별 면접입니다.",
+          "전공적합성(관심·이해도·활동경험), 인성(소통역량), 발전가능성(종합적 사고력)을 평가합니다.",
+          "학과·학생별로 면접 질문이 다양하게 제시됩니다.",
+        ],
+        source: { name: "건국대학교 입학처", url: "https://enter.konkuk.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "동국대학교", region: "서울", admissions: [
+    { name: "Do Dream(두드림)전형", type: "2단계 서류기반 면접 (서류 70% + 면접 30%)", crit: ["자기주도·도전정신","전공적합성","인성·사회성","발전가능성"],
+      depts: ["경영학과","컴퓨터공학전공","AI융합학부","전자전기공학부","미디어커뮤니케이션학전공"],
+      official: { format: "2단계 학생부(생기부) 기반 개별 면접 (서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류 100%로 약 2.5~4배수를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "면접관 2인이 10분 이내로 진행하는 학생부 기반 개별 면접입니다.",
+          "1단계 서류 점수 차가 작아 면접의 실질 영향력이 큰 편이며, 두괄식 답변이 권장됩니다.",
+        ],
+        source: { name: "동국대학교 입학처", url: "https://ipsi.dongguk.edu/", years: "연도별 공개" } } },
+  ]},
+  { name: "홍익대학교", region: "서울", admissions: [
+    { name: "학교생활우수자전형", type: "서류 100% (면접 미실시)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계·시스템디자인공학과","전자전기공학부","컴퓨터공학과","경영학부","디자인학부"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "학교생활우수자전형은 면접 없이 서류평가 100%로 선발합니다.",
+          "서류는 학업역량 40%·진로역량 40%·공동체역량 20%로 평가하며, 수능 최저학력기준은 서울캠퍼스에만 적용됩니다.",
+        ],
+        source: { name: "홍익대학교 입학처", url: "https://ipsi.hongik.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "서울시립대학교", region: "서울", admissions: [
+    { name: "학생부종합Ⅰ(면접형)", type: "2단계 서류기반 면접 (서류 50% + 면접 50%)", crit: ["학업역량","잠재역량","사회역량"],
+      depts: ["경영학부","컴퓨터과학부","전자전기컴퓨터공학부","도시행정학과","세무학과"],
+      official: { format: "2단계 서류기반 확인 면접 (서류 50% + 면접 50%)",
+        facts: [
+          "2단계 면접 반영 비율이 50%로 매우 높습니다(서류 50% + 면접 50%).",
+          "면접위원 2인이 지원자 1인을 대상으로 약 12분 내외 개별 면접을 진행합니다.",
+          "학업역량·잠재역량·사회역량을 중심으로 종합적 사고력·문제해결·의사소통·공적윤리의식을 평가합니다.",
+          "활동 소감의 사실 여부보다 탐구에 활용한 개념·원리를 묻는 경향이 있습니다.",
+        ],
+        source: { name: "서울시립대학교 입학처", url: "https://admission.uos.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "서울과학기술대학교", region: "서울", admissions: [
+    { name: "학교생활우수자전형", type: "서류 기반 면접", crit: ["학업역량","전공적합성","발전가능성","인성"],
+      depts: ["기계시스템디자인공학과","전기정보공학과","컴퓨터공학과","산업공학과","경영학과"] },
+  ]},
+  { name: "이화여자대학교", region: "서울", admissions: [
+    { name: "미래인재 - 서류형", type: "서류 100% (면접 미실시)", crit: ["학업역량","학교활동 우수성","발전가능성"],
+      depts: ["경영학부","컴퓨터공학과","휴먼기계바이오공학부","화학신소재공학과","사회학과"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "미래인재-서류형은 학생부 기반 서류평가 100%로 선발하며 면접을 실시하지 않습니다.",
+          "면접을 준비하려면 미래인재-면접형 전형을 확인하세요.",
+        ],
+        source: { name: "이화여자대학교 입학처", url: "https://admission.ewha.ac.kr/", years: "연도별 공개" } } },
+    { name: "미래인재 - 면접형", type: "2단계 면접 (1단계 서류 → 2단계 면접 30%)", crit: ["학업역량","학교활동 우수성","발전가능성"],
+      depts: ["경영학부","컴퓨터공학과","휴먼기계바이오공학부","화학신소재공학과","사회학과"],
+      official: { format: "2단계 면접 (서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 학생부 기반 서류평가 100%로 5배수를 선발합니다.",
+          "2단계에서 1단계 성적 70%와 면접 30%를 합산해 최종 선발합니다.",
+          "면접은 수능 이후 실시하며 수능 최저학력기준을 적용하지 않습니다.",
+        ],
+        source: { name: "이화여자대학교 입학처", url: "https://admission.ewha.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "숙명여자대학교", region: "서울", admissions: [
+    { name: "숙명인재(면접형)", type: "2단계 서류기반 면접 (서류 70% + 면접 30%)", crit: ["종합적 사고력","전공적합성","발전가능성","인성"],
+      depts: ["경영학부","컴퓨터과학전공","인공지능공학부","화공생명공학부","미디어학부"],
+      official: { format: "2단계 서류기반 개별 심층 면접 (1단계 서류 4배수 → 서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류평가로 4배수를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "지원자 1인씩 들어가는 개별 면접으로, 제출서류의 사실 여부를 확인하는 서류기반형입니다.",
+          "전공적합성·종합적 사고력·의사소통능력 및 인성 등을 종합적으로 평가합니다.",
+        ],
+        source: { name: "숙명여자대학교 입학처", url: "https://admission.sookmyung.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "세종대학교", region: "서울", admissions: [
+    { name: "세종인재(창의인재) 면접형", type: "2단계 서류기반 면접 (서류 60% + 면접 40%)", crit: ["학업역량","전공적합성","발전가능성","인성"],
+      depts: ["경영학부","컴퓨터공학과","인공지능데이터사이언스학과","전자정보통신공학과","건축공학부"],
+      official: { format: "2단계 서류기반 면접 (1단계 서류 3배수 → 서류 60% + 면접 40%)",
+        facts: [
+          "1단계에서 서류평가 100%로 3배수를 선발한 뒤, 2단계에서 서류 60%와 면접 40%로 선발합니다.",
+          "2단계 면접은 제출서류를 바탕으로 종합적으로 평가합니다.",
+          "2027학년도부터 전형 명칭이 세종창의인재에서 ‘세종인재’로 변경됩니다.",
+        ],
+        source: { name: "세종대학교 입학처", url: "https://ipsi.sejong.ac.kr/", years: "연도별 공개" } } },
+    { name: "세종인재 서류형", type: "서류 100% (면접 미실시)", crit: ["학업역량","전공적합성","발전가능성","인성"],
+      depts: ["경영학부","컴퓨터공학과","인공지능데이터사이언스학과","전자정보통신공학과","건축공학부"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "서류형(및 기회균형·사회기여배려자 등)은 면접 없이 서류평가 100%로 선발합니다.",
+          "면접을 준비하려면 면접형 전형을 확인하세요.",
+        ],
+        source: { name: "세종대학교 입학처", url: "https://ipsi.sejong.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "광운대학교", region: "서울", admissions: [
+    { name: "광운참빛인재Ⅰ(면접형)", type: "2단계 서류기반 면접", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["전자공학과","컴퓨터정보공학부","로봇학부","소프트웨어학부","경영학부"],
+      official: { format: "2단계 제출서류 기반 개별 면접",
+        facts: [
+          "1단계에서 서류 100%로 일정 배수를 선발한 뒤, 2단계에서 1단계 성적과 면접을 합산합니다.",
+          "2026학년도 기준 1단계 선발 배수와 면접 반영 비율이 확대되었습니다(면접 30%→40% 등, 연도별 확인 필요).",
+          "평가위원이 사전에 제출서류를 검토한 뒤 개인별 맞춤 질문을 하는 10분 내외 개별 면접입니다.",
+        ],
+        source: { name: "광운대학교 입학처", url: "https://iphak.kw.ac.kr/", years: "연도별 공개" } } },
+    { name: "광운참빛인재Ⅱ(서류형)", type: "서류 100% (면접 미실시)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["전자공학과","컴퓨터정보공학부","로봇학부","소프트웨어학부","경영학부"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "광운참빛인재Ⅱ(서류형)은 서류평가 100%로 선발하며 면접을 실시하지 않습니다.",
+          "면접을 준비하려면 광운참빛인재Ⅰ(면접형)을 확인하세요.",
+        ],
+        source: { name: "광운대학교 입학처", url: "https://iphak.kw.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "한국외국어대학교", region: "서울", admissions: [
+    { name: "학생부종합(면접형)", type: "2단계 서류기반 면접 (서류 50% + 면접 50%)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["영어대학","경영학부","컴퓨터공학부","국제학부","LD(언어·외교)학부"],
+      official: { format: "2단계 서류기반 블라인드 면접 (1단계 서류 3배수 → 서류 50% + 면접 50%)",
+        facts: [
+          "1단계에서 서류평가 100%로 3배수를 선발한 뒤, 2단계에서 서류 50%와 면접 50%로 선발합니다.",
+          "제출서류(학생부) 기반 블라인드 면접으로, 학업역량·진로역량·공동체역량을 평가합니다.",
+          "면접 반영 비율이 50%로 높은 편입니다(서류형 및 SW인재 등은 전형별로 상이).",
+        ],
+        source: { name: "한국외국어대학교 입학처", url: "https://admission.hufs.ac.kr/", years: "연도별 공개" } } },
+    { name: "학생부종합(서류형)", type: "서류 100% (면접 미실시)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["영어대학","경영학부","컴퓨터공학부","국제학부","LD(언어·외교)학부"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "서류형은 서류평가 100%로 선발하며 면접을 실시하지 않습니다.",
+          "면접을 준비하려면 면접형 전형을 확인하세요.",
+        ],
+        source: { name: "한국외국어대학교 입학처", url: "https://admission.hufs.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "명지대학교", region: "서울", admissions: [
+    { name: "명지인재면접전형", type: "2단계 서류기반 개별 심층 면접", crit: ["진로역량","공동체역량","의사소통능력"],
+      depts: ["경영학과","컴퓨터공학과","인공지능·소프트웨어학부","전기공학과","행정학과"],
+      official: { format: "2단계 서류기반 개별 심층 면접 (교수 2인)",
+        facts: [
+          "1단계 서류평가 후 2단계에서 교수 2인이 제출서류를 토대로 약 10분간 개별 심층 면접을 진행합니다.",
+          "1단계 서류는 학업역량 20%·진로역량 50%·공동체역량 30%를 반영합니다.",
+          "면접은 공동체역량 35%·진로역량 35%·의사소통능력 30%로 평가하며, 합격에 미치는 영향력이 큰 편입니다.",
+        ],
+        source: { name: "명지대학교 입학처", url: "https://iphak.mju.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "상명대학교", region: "서울", admissions: [
+    { name: "상명인재전형", type: "서류 100% (대부분 면접 미실시 · 일부 예체능만 면접)", crit: ["학업역량","전공적합성","발전가능성","인성"],
+      depts: ["경영학부","휴먼지능정보공학전공","컴퓨터과학전공","전기공학전공","공간환경학부"],
+      official: { noInterview: true, format: "서류평가 100% (일부 예체능 모집단위만 2단계 면접)",
+        facts: [
+          "인문·자연·예체능(애니메이션)은 서류평가 100%로 선발하며 면접을 실시하지 않습니다.",
+          "다만 예체능 일부(스포츠건강관리·조형예술 전공)는 1단계 서류 5배수 후 2단계 면접 40%를 반영합니다.",
+          "수능 최저학력기준은 적용하지 않습니다 — 지원 모집단위의 면접 여부는 모집요강으로 확인하세요.",
+        ],
+        source: { name: "상명대학교 입학처", url: "https://admission.smu.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "단국대학교", region: "경기", admissions: [
+    { name: "DKU인재(면접형)", type: "2단계 서류기반 면접 (서류 70% + 면접 30%)", crit: ["전공적합성","학업역량","인성·발전가능성"],
+      depts: ["경영학부","소프트웨어학과","전자전기공학부","기계공학과","커뮤니케이션학부"],
+      official: { format: "2단계 서류기반 개별 면접 (1단계 학생부 100% → 서류 70% + 면접 30%)",
+        facts: [
+          "1단계는 학생부 100%로 선발하고, 2단계에서 1단계 성적 70%와 면접 30%로 최종 선발합니다.",
+          "면접관은 학생부만 자료로 활용해 질문하며, 별도의 제시문이나 교과 지식 문제는 출제되지 않습니다.",
+          "면접형은 전공적합성 45%·학업역량 35%·인성 및 발전가능성 20% 비율로 평가합니다.",
+        ],
+        source: { name: "단국대학교 입학처", url: "https://ipsi.dankook.ac.kr/", years: "연도별 공개" } } },
+    { name: "DKU인재(서류형)", type: "서류 100% (면접 미실시)", crit: ["학업역량","전공적합성","인성·발전가능성"],
+      depts: ["경영학부","소프트웨어학과","전자전기공학부","기계공학과","커뮤니케이션학부"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "DKU인재-서류형은 학생부 100%로 선발하며 면접을 실시하지 않습니다.",
+          "서류형은 학업역량 45%·전공적합성 35%·인성 및 발전가능성 20% 비율로 평가합니다.",
+        ],
+        source: { name: "단국대학교 입학처", url: "https://ipsi.dankook.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "가톨릭대학교", region: "경기", admissions: [
+    { name: "잠재능력우수자전형", type: "서류 기반 면접", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["간호학과","컴퓨터정보공학부","경영학부","바이오메디컬화학공학과","심리학과"] },
+  ]},
+  { name: "한국항공대학교", region: "경기", admissions: [
+    { name: "미래인재전형", type: "서류 기반 면접", crit: ["학업역량","전공적합성","발전가능성","인성"],
+      depts: ["항공운항학과","항공우주및기계공학부","항공전자정보공학부","소프트웨어학과","경영학부"] },
+  ]},
+  { name: "인하대학교", region: "인천", admissions: [
+    { name: "인하미래인재(면접형)", type: "2단계 서류기반 면접 (서류 70% + 면접 30%)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학과","전자공학과","컴퓨터공학과","인공지능공학과","경영학과"],
+      official: { format: "2단계 서류기반 개별 면접 (1단계 서류 3.5배수 → 서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류종합평가 100%로 3.5배수(의예과 3배수)를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로 진행됩니다.",
+        ],
+        source: { name: "인하대학교 입학처", url: "https://ipsi.inha.ac.kr/", years: "연도별 공개" } } },
+    { name: "인하미래인재(서류형)", type: "서류 100% (면접 미실시)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학과","전자공학과","컴퓨터공학과","인공지능공학과","경영학과"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "인하미래인재-서류형은 서류종합평가 100%로 선발하며 면접을 실시하지 않습니다.",
+          "면접을 준비하려면 인하미래인재-면접형을 확인하세요.",
+        ],
+        source: { name: "인하대학교 입학처", url: "https://ipsi.inha.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "아주대학교", region: "경기", admissions: [
+    { name: "ACE전형", type: "2단계 서류기반 면접 (서류 70% + 면접 30%)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학과","전자공학과","소프트웨어학과","인공지능융합학과","경영학과"],
+      official: { format: "2단계 서류기반 개별 면접 (1단계 서류 3배수 → 서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류종합평가 100%로 3배수를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "면접위원 2인과 지원자 1인의 개별 면접으로, 제출서류의 사실 여부를 확인하는 서류기반형입니다.",
+          "의학과·약학과를 제외한 모집단위는 수능 최저학력기준을 적용하지 않습니다.",
+        ],
+        source: { name: "아주대학교 입학처", url: "https://iphak.ajou.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "가천대학교", region: "경기", admissions: [
+    { name: "가천바람개비전형", type: "2단계 서류기반 면접 (서류 50% + 면접 50%)", crit: ["인성","성장가능성","기초학업역량","전공적합성"],
+      depts: ["컴퓨터공학과","AI·소프트웨어학부","간호학과","경영학부","전자공학과"],
+      official: { format: "2단계 서류기반 개별 면접 (1단계 서류 5배수 → 서류 50% + 면접 50%)",
+        facts: [
+          "1단계에서 서류평가 100%로 5배수를 선발한 뒤, 2단계에서 서류 50%와 면접 50%로 선발합니다.",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로 진행되며, 수능 최저학력기준은 적용하지 않습니다.",
+        ],
+        source: { name: "가천대학교 입학처", url: "https://admission.gachon.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "부산대학교", region: "부산", admissions: [
+    { name: "학생부종합전형", type: "2단계 서류기반 면접 (서류 80% + 면접 20%)", crit: ["학업역량","진로역량","사회역량"],
+      depts: ["경영학과","전자공학과","정보컴퓨터공학부","기계공학부","화공생명·환경공학부"],
+      official: { format: "2단계 서류기반 면접 (1단계 서류 3~4배수 → 서류 80% + 면접 20%)",
+        facts: [
+          "1단계에서 서류평가 100%로 3~4배수를 선발한 뒤, 2단계에서 서류 80%와 면접 20%로 최종 선발합니다.",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로 진행됩니다.",
+        ],
+        source: { name: "부산대학교 입학본부", url: "https://go.pusan.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "경북대학교", region: "대구", admissions: [
+    { name: "일반학생전형(종합)", type: "서류 기반 면접", crit: ["학업역량","전공적합성","발전가능성","인성"],
+      depts: ["경영학부","전자공학부","컴퓨터학부","기계공학부","화학공학과"] },
+  ]},
+  { name: "전남대학교", region: "광주", admissions: [
+    { name: "고교생활우수자전형", type: "서류 기반 면접", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학부","전자공학과","컴퓨터정보통신공학과","기계공학부","화공생명공학과"] },
+  ]},
+  { name: "전북대학교", region: "전북", admissions: [
+    { name: "큰사람전형", type: "서류 기반 면접", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학과","전자공학부","컴퓨터인공지능학부","기계공학과","화학공학부"] },
+  ]},
+  { name: "충남대학교", region: "대전", admissions: [
+    { name: "PRISM인재전형", type: "2단계 서류기반 면접 (서류 66.7% + 면접 33.3%)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학부","전자공학과","컴퓨터융합학부","기계공학부","전기공학과"],
+      official: { format: "2단계 서류기반 면접 (1단계 서류 100% → 서류 66.7% + 면접 33.3%)",
+        facts: [
+          "1단계에서 서류평가 100%로 2~3배수를 선발한 뒤, 2단계에서 서류 66.7%와 면접 33.3%로 선발합니다.",
+          "사범대·수의예·의예 등은 3배수, 그 외 10명 이상 모집단위는 2배수를 선발하는 등 모집단위별로 배수가 다릅니다.",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로 진행됩니다.",
+        ],
+        source: { name: "충남대학교 입학본부", url: "https://ipsi.cnu.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "충북대학교", region: "충북", admissions: [
+    { name: "학생부종합I(면접)", type: "서류 기반 면접", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학부","전자공학부","소프트웨어학부","기계공학부","화학공학과"] },
+  ]},
+  { name: "강원대학교", region: "강원", admissions: [
+    { name: "미래인재전형(면접형)", type: "2단계 서류기반 면접 (서류 70% + 면접 30%)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영·회계학부","컴퓨터공학과","전자공학과","기계의용·메카트로닉스공학부","간호학과"],
+      official: { format: "2단계 서류기반 개별 면접 (1단계 서류 → 서류 70% + 면접 30%)",
+        facts: [
+          "1단계 서류평가 후 2단계에서 서류 70%와 면접 30%로 최종 선발합니다.",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로 약 10분 내외 진행됩니다.",
+          "자기소개서가 폐지되어, 학생부에 기재된 활동·학습 과정·동아리 경험 등이 주된 질문 소재입니다.",
+        ],
+        source: { name: "강원대학교 입학본부", url: "https://wwwk.kangwon.ac.kr/admission/", years: "연도별 공개" } } },
+  ]},
+  { name: "제주대학교", region: "제주", admissions: [
+    { name: "학생부종합(일반)", type: "서류 기반 면접", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학과","컴퓨터공학전공","전자공학전공","기계공학부","해양산업경찰학과"] },
+  ]},
+  { name: "경상국립대학교", region: "경남", admissions: [
+    { name: "일반전형(종합)", type: "서류 기반 면접", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학부","전자공학과","컴퓨터과학과","기계공학부","항공우주공학부"] },
+  ]},
+  { name: "서울교육대학교", region: "서울", admissions: [
+    { name: "교직인성우수자전형", type: "개별·집단 면접(교직 적성·인성)", crit: ["교직인성","교직적성","전공적합성"],
+      depts: ["초등교육과"] },
+  ]},
+  { name: "포항공과대학교(POSTECH)", region: "경북", admissions: [
+    { name: "학생부종합전형", type: "개별 심층 면접", crit: ["수학·과학 학업역량","탐구·잠재력","인성·가치관"],
+      depts: ["단일계열(무학과)","컴퓨터공학과","전자전기공학과","기계공학과","화학공학과"],
+      official: {
+        format: "블라인드 개별 심층 면접 (학생부종합 100%)",
+        facts: [
+          "지원자의 개인정보·사회적 배경을 배제한 블라인드 면접으로 진행됩니다.",
+          "과학·공학 분야 잠재력, 사고력, 이공계 기본 역량과 학습 태도를 종합 평가합니다.",
+          "정답을 정해두지 않고 지원자와 문답하는 방식으로, 교과 암기가 아니라 기본적인 사고 과정을 확인합니다.",
+          "지원자 1인당 면접 시간이 길고 심층적으로 진행됩니다.",
+        ],
+        source: { name: "POSTECH 학부 입학팀", url: "https://adm-u.postech.ac.kr/", years: "모집요강·FAQ 공개" },
+      } },
+  ]},
+  { name: "한국과학기술원(KAIST)", region: "대전", admissions: [
+    { name: "일반전형", type: "개별 심층 면접", crit: ["수학·과학 학업역량","탐구·문제해결력","인성·리더십"],
+      depts: ["무학과(자유융합)","전산학부","전기및전자공학부","기계공학과","생명과학과"],
+      official: {
+        format: "개별 구술 심층 면접 (학업역량 면접 + 적합성 면접)",
+        facts: [
+          "학업역량 면접은 수학·과학·영어 관련 개인별 구술면접으로 진행됩니다.",
+          "과학은 물리학·화학·생명과학 중 1개 과목을 선택해 응시합니다.",
+          "적합성 면접은 지원서 기반 질문과 공통 질문을 바탕으로 진행됩니다.",
+          "풀이 노트를 비추며 자신의 사고 과정을 논리적으로 '발표'하는 형식이 특징입니다.",
+          "공식 보고서에 기출문항·출제 의도·문항 해설·채점 기준·예시답안·유사 기출이 수록됩니다.",
+        ],
+        source: { name: "KAIST 입학처 · 면접 기출", url: "https://admission.kaist.ac.kr/undergraduate/admission/sub02", years: "연도별 공개" },
+      } },
+  ]},
+  { name: "울산과학기술원(UNIST)", region: "울산", admissions: [
+    { name: "일반전형", type: "서류 기반 면접", crit: ["이공계 학업역량","탐구역량","발전가능성·인성"],
+      depts: ["이공계열(무학과)","경영과학부"] },
+  ]},
+  { name: "광주과학기술원(GIST)", region: "광주", admissions: [
+    { name: "일반전형", type: "개별 심층 면접", crit: ["수학·과학 학업역량","탐구·창의력","인성"],
+      depts: ["기초교육학부(무학과)"] },
+  ]},
+  { name: "덕성여자대학교", region: "서울", admissions: [
+    { name: "덕성인재Ⅱ(면접형)", type: "2단계 서류기반 면접 (면접 비중 큼)", crit: ["학업역량","전공적합성","발전가능성","인성"],
+      depts: ["글로벌융합대학","약학과","화학과","컴퓨터공학전공","경영학과"],
+      official: { format: "2단계 서류기반 면접 (면접 반영 비율 높음)",
+        facts: [
+          "덕성인재Ⅱ(면접형)는 1단계 서류평가 후 2단계에서 면접을 실시하며, 면접 반영 비율이 높습니다(면접 60% 수준).",
+          "면접고사에 불참하면 불합격 처리됩니다.",
+          "면접 일정은 개별 통보하지 않으므로 1단계 합격 발표 후 입학홈페이지에서 직접 확인해야 합니다.",
+        ],
+        source: { name: "덕성여자대학교 입학처", url: "https://enter.duksung.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "성신여자대학교", region: "서울", admissions: [
+    { name: "자기주도인재전형", type: "2단계 서류기반 면접 (서류 60% + 면접 40%)", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["경영학부","AI융합학부","컴퓨터공학과","화학·에너지융합학부","사회복지학과"],
+      official: { format: "2단계 서류기반 확인 면접 (1단계 서류 100% → 2단계 서류 60% + 면접 40%)",
+        facts: [
+          "1단계에서 서류평가 100%로 선발한 뒤, 2단계에서 서류 60%와 면접 40%로 선발합니다(면접 비중 확대).",
+          "지원자 1인과 평가자 2인의 질의응답(약 10분)으로 진행되는 서류기반 확인 면접입니다.",
+          "학교생활기록부 내용을 바탕으로 질문합니다(기존 학교생활우수자 전형은 자기주도인재로 통합).",
+        ],
+        source: { name: "성신여자대학교 입학처", url: "https://ipsi.sungshin.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "대진대학교", region: "경기", admissions: [
+    { name: "윈윈대진전형", type: "2단계 서류기반 면접", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["컴퓨터공학과","AI빅데이터학과","경영학과","전기전자공학부","간호학과"],
+      official: { format: "2단계 개별 면접 (1단계 서류평가 100% → 2단계 면접)",
+        facts: [
+          "1단계에서 서류평가 100%로 선발한 뒤, 2단계에서 면접을 실시합니다.",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로 진행됩니다.",
+        ],
+        source: { name: "대진대학교 입학처", url: "https://admission.daejin.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "한성대학교", region: "서울", admissions: [
+    { name: "한성인재전형", type: "서류 100% (면접 미실시)", crit: ["학업역량","전공적합성","성장가능성"],
+      depts: ["IT공과대학","크리에이티브인문학부","사회과학부","디자인대학","미래융합사회과학대학"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "한성인재전형은 학생부 기반 서류평가 100%로 선발하며 면접을 실시하지 않습니다.",
+          "수험생·고교 정보를 블라인드 처리하며, 수능 최저학력기준도 없습니다.",
+          "학생부 교과·비교과 전반의 활동과 전공적합성·성장가능성을 중심으로 평가합니다.",
+        ],
+        source: { name: "한성대학교 입학처", url: "https://enter.hansung.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "서울여자대학교", region: "서울", admissions: [
+    { name: "바롬인재(면접형)", type: "2단계 서류기반 개별 면접", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["경영학과","컴퓨터공학과","데이터사이언스학과","교육심리학과","언론영상학부"],
+      official: { format: "2단계 제출서류 기반 개별 블라인드 면접",
+        facts: [
+          "바롬인재면접·SW융합인재 전형은 제시문 없이 제출서류 기반으로 개별 면접을 진행합니다.",
+          "평가자 2인이 평가요소를 종합 평가하며, 하나의 답변에 이어 파고드는 ‘꼬리질문’이 많이 사용됩니다.",
+          "블라인드 면접으로, 이름표·배지 착용이나 본인·가족 신상 언급이 금지됩니다.",
+        ],
+        source: { name: "서울여자대학교 입학처", url: "https://admission.swu.ac.kr/", years: "연도별 공개" } } },
+    { name: "바롬인재(서류형)", type: "서류 100% (면접 미실시)", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["경영학과","컴퓨터공학과","데이터사이언스학과","교육심리학과","언론영상학부"],
+      official: { noInterview: true, format: "학생부종합 서류평가 100% 선발",
+        facts: [
+          "바롬인재서류전형은 면접 없이 서류평가 100%로 선발하며, 수능 최저학력기준도 없습니다.",
+          "면접을 준비하려면 바롬인재면접 전형을 확인하세요.",
+        ],
+        source: { name: "서울여자대학교 입학처", url: "https://admission.swu.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "경기대학교", region: "경기", admissions: [
+    { name: "KGU학생부종합전형", type: "2단계 서류기반 면접 (서류 70% + 면접 30%)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학부","컴퓨터공학부","전자공학과","AI컴퓨터공학부","행정학과"],
+      official: { format: "2단계 서류기반 개별 면접 (1단계 서류 3배수 → 서류 70% + 면접 30%)",
+        facts: [
+          "1단계에서 서류평가 100%로 3배수 내외를 선발한 뒤, 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "제출서류(학생부)를 바탕으로 한 개별 면접으로 진행됩니다.",
+        ],
+        source: { name: "경기대학교 입학처", url: "https://enter.kyonggi.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "신한대학교", region: "경기", admissions: [
+    { name: "학생부종합(일반)", type: "2단계 서류기반 면접 (세부는 모집요강 확인)", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["간호학과","AI공학부","컴퓨터공학과","경영학과","물리치료학과"],
+      official: { format: "2단계 서류기반 면접 (면접위원 2인 · 개별)",
+        facts: [
+          "학생부종합전형은 서류평가 후 2단계에서 면접을 실시하며, 면접위원(교수) 2인이 지원자 1인을 평가합니다.",
+          "세부 반영 비율·모집단위는 해당 연도 모집요강으로 확인하세요.",
+        ],
+        source: { name: "신한대학교 입학처", url: "https://ipsi.shinhan.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "을지대학교", region: "경기", admissions: [
+    { name: "자기추천(면접형)", type: "2단계 서류기반 면접 (세부는 모집요강 확인)", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["간호학과","의료IT학과","임상병리학과","응급구조학과","보건환경안전학과"],
+      official: { format: "2단계 서류기반 면접 (면접형 전형)",
+        facts: [
+          "학생부종합전형이 면접형(자기추천)과 서류형(미래인재 등)으로 나뉘며, 면접형에서만 면접을 실시합니다.",
+          "제출서류(학생부)를 바탕으로 한 면접으로, 세부 방식·비율은 모집요강으로 확인하세요.",
+        ],
+        source: { name: "을지대학교 입학처", url: "https://admission.eulji.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "차의과학대학교", region: "경기", admissions: [
+    { name: "CHA학생부종합전형", type: "서류기반 면접 (세부는 모집요강 확인)", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["간호대학","약학과","의생명과학과","바이오공학과","상담심리학과"],
+      official: { format: "서류기반 면접 (간호·보건·의약 계열 중심)",
+        facts: [
+          "CHA학생부종합전형은 제출서류(학생부)를 바탕으로 한 면접을 포함해 평가합니다.",
+          "면접 반영 비율·단계 구성은 모집단위(간호·약학 등)에 따라 다르니 모집요강을 확인하세요.",
+        ],
+        source: { name: "차의과학대학교 입학처", url: "https://admission.cha.ac.kr/", years: "연도별 공개" } } },
+  ]},
+  { name: "경동대학교", region: "강원", admissions: [
+    { name: "학생부종합전형", type: "학생부종합전형 (면접 여부는 모집요강 확인)", crit: ["학업역량","전공적합성","인성","발전가능성"],
+      depts: ["간호학과","물리치료학과","작업치료학과","항공서비스학과","경찰학과"] } ]},
+
+  { name: "인천대학교", region: "인천", admissions: [
+    { name: "자기추천전형", type: "2단계 서류 기반 면접(모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["경영학부","컴퓨터공학부","전기공학과","기계공학과","무역학부"] } ]},
+  { name: "한국교원대학교", region: "충북", admissions: [
+    { name: "학생부종합(청람인재)", type: "2단계 교직 적·인성 면접 (제시문 발표 + 서류 확인)", crit: ["전공적합성","교직적성","교직인성","문제해결능력"],
+      depts: ["초등교육과","교육학과","컴퓨터교육과","수학교육과","국어교육과"],
+      official: { format: "2단계 교직 적·인성 개별 면접 (제시문 발표 + 서류 확인)",
+        facts: [
+          "2단계에서 교직 적성·인성 중심의 개별 면접을 실시합니다.",
+          "제시문을 10분간 읽고 준비한 뒤, 약 3분 발표 + 3분 질의응답 + 서류 확인 면접 4분(총 10분 내외)으로 진행됩니다.",
+          "전공적합성·교직적성·교직인성·문제해결능력을 평가하며, 특별한 선행학습이 필요하지 않은 개방형 질문입니다.",
+        ],
+        source: { name: "한국교원대학교 입학안내 · 2단계 면접 기출문제 공개", url: "https://ent.knue.ac.kr/sub06_05.brd?shell=/index.shell:12", years: "연도별 공개" } } } ]},
+  { name: "국립공주대학교", region: "충남", admissions: [
+    { name: "학생부종합(일반)", type: "단과대학별 상이 (사범·예술대만 면접 / 그 외 서류 100%)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학부","전기전자제어공학부","컴퓨터공학부","경영학과","사범대학"],
+      official: { format: "단과대학별 상이 — 사범·예술대는 2단계 면접, 그 외는 서류 100%",
+        facts: [
+          "사범대학·예술대학은 1단계 서류평가 100%(4배수) 후 2단계에서 서류 70%와 면접 30%로 선발합니다.",
+          "인문사회·자연과학·간호보건·국제학부·공과대학·인공지능학부·산업과학대학은 면접 없이 서류평가 100%로 선발합니다.",
+          "지원 단과대학에 따라 면접 여부가 다르니 모집요강을 반드시 확인하세요.",
+        ],
+        source: { name: "국립공주대학교 입학본부", url: "https://ipsi.kongju.ac.kr/kor", years: "연도별 공개" } } } ]},
+  { name: "국립한밭대학교", region: "대전", admissions: [
+    { name: "학생부종합(학교생활우수자)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["컴퓨터공학과","전기공학과","기계공학과","건설환경공학과","경영회계학과"] } ]},
+  { name: "국립부경대학교", region: "부산", admissions: [
+    { name: "학교생활우수인재전형", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학부","전자공학과","컴퓨터·인공지능공학부","경영학부","해양생산시스템관리학부"] } ]},
+  { name: "한국해양대학교", region: "부산", admissions: [
+    { name: "아치웨이(ARCHIWAY)인재전형", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["항해융합학부","기관시스템공학부","해양공학과","해사인공지능·보안학부","해운경영학부"] } ]},
+  { name: "국립금오공과대학교", region: "경북", admissions: [
+    { name: "학생부종합(KIT인재)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학과","전자공학부","컴퓨터공학과","신소재공학부","산업공학부"] } ]},
+  { name: "국립한국교통대학교", region: "충북", admissions: [
+    { name: "학생부종합(나비인재)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["철도인프라공학과","기계공학전공","컴퓨터공학전공","전자공학전공","경영학전공"] } ]},
+  { name: "국립창원대학교", region: "경남", admissions: [
+    { name: "학생부종합(창원대인재)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학부","전기전자공학부","메카트로닉스공학부","경영학과","간호학과"] } ]},
+  { name: "국립군산대학교", region: "전북", admissions: [
+    { name: "학생부종합(새만금인재)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학부","전자공학부","소프트웨어학부","해양생명응용과학부","경영학과"] } ]},
+  { name: "국립목포대학교", region: "전남", admissions: [
+    { name: "학생부종합(교직적·인성/일반)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학과","컴퓨터공학과","전기및제어공학과","경영학과","간호학과"] } ]},
+  { name: "국립순천대학교", region: "전남", admissions: [
+    { name: "학생부종합(일반)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계공학과","전자공학과","컴퓨터공학과","경영학과","간호학과"] } ]},
+  { name: "국립안동대학교", region: "경북", admissions: [
+    { name: "학생부종합(ANU미래인재)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계로봇공학과","전자공학과","컴퓨터공학과","경영학과","간호학과"] } ]},
+  { name: "국립강릉원주대학교", region: "강원", admissions: [
+    { name: "학생부종합(해람인재)", type: "학생부종합전형(면접 여부는 모집요강 확인)", crit: ["학업역량","진로역량","공동체역량"],
+      depts: ["기계의용·메카트로닉스공학부","전자공학과","컴퓨터공학과","경영학과","간호학과"] } ]},
+  { name: "대구경북과학기술원(DGIST)", region: "대구", admissions: [
+    { name: "일반전형", type: "개별 심층 면접(이공계)", crit: ["수학·과학 학업역량","탐구·잠재력","인성"],
+      depts: ["기초학부(무학과)"] } ]},
+  { name: "한국에너지공과대학교(KENTECH)", region: "전남", admissions: [
+    { name: "일반전형", type: "개별 심층 면접(이공계)", crit: ["수학·과학 학업역량","탐구·창의력","인성·가치관"],
+      depts: ["에너지공학부(무학과)"] } ]},
+  { name: "경인교육대학교", region: "인천", admissions: [
+    { name: "교직적성잠재능력우수자", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+  { name: "부산교육대학교", region: "부산", admissions: [
+    { name: "초등교직적성자", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+  { name: "대구교육대학교", region: "대구", admissions: [
+    { name: "참스승전형", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+  { name: "광주교육대학교", region: "광주", admissions: [
+    { name: "교직적성우수자", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+  { name: "전주교육대학교", region: "전북", admissions: [
+    { name: "교직적성우수자", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+  { name: "청주교육대학교", region: "충북", admissions: [
+    { name: "배움나눔인재전형", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+  { name: "춘천교육대학교", region: "강원", admissions: [
+    { name: "교직적·인성인재", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+  { name: "진주교육대학교", region: "경남", admissions: [
+    { name: "21세기형교직적성자", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+  { name: "공주교육대학교", region: "충남", admissions: [
+    { name: "교직적성인재전형", type: "교직 적성·인성 면접(교육대)", crit: ["교직적성","교직인성","전공적합성"],
+      depts: ["초등교육과"] } ]},
+];
+
+// 흔히 쓰는 약칭·별칭으로도 검색되도록
+const UNI_ALIAS = {
+  "서울대학교":"서울대 snu",
+  "연세대학교":"연대 yonsei",
+  "고려대학교":"고대 korea",
+  "성균관대학교":"성대 skku 성균관",
+  "서강대학교":"서강",
+  "한양대학교":"한대 hanyang",
+  "중앙대학교":"중대 cau",
+  "경희대학교":"경희",
+  "국민대학교":"국민",
+  "숭실대학교":"숭실",
+  "한국외국어대학교":"외대 한국외대 한외대 hufs",
+  "서울시립대학교":"시립대 uos",
+  "서울과학기술대학교":"서울과기대 과기대 seoultech",
+  "이화여자대학교":"이대 이화여대 ewha",
+  "숙명여자대학교":"숙대 숙명여대",
+  "한국항공대학교":"항공대 kau",
+  "경상국립대학교":"경상대 경상국립대 gnu",
+  "서울교육대학교":"교대 서울교대 초등 snue",
+  "포항공과대학교(POSTECH)":"포스텍 포항공대 postech",
+  "한국과학기술원(KAIST)":"카이스트 kaist",
+  "울산과학기술원(UNIST)":"유니스트 unist",
+  "광주과학기술원(GIST)":"지스트 gist",
+  "덕성여자대학교":"덕성 덕성여대",
+  "성신여자대학교":"성신 성신여대",
+  "대진대학교":"대진",
+  "한성대학교":"한성",
+  "인천대학교":"인천대",
+  "한국교원대학교":"교원대 한국교원대",
+  "국립공주대학교":"공주대 공주",
+  "국립한밭대학교":"한밭대 한밭",
+  "국립부경대학교":"부경대 부경",
+  "한국해양대학교":"해양대 한국해양대",
+  "국립금오공과대학교":"금오공대 금오",
+  "국립한국교통대학교":"교통대 한국교통대",
+  "국립창원대학교":"창원대 창원",
+  "국립군산대학교":"군산대 군산",
+  "국립목포대학교":"목포대 목포",
+  "국립순천대학교":"순천대 순천",
+  "국립안동대학교":"안동대 안동",
+  "국립강릉원주대학교":"강릉원주대 강릉 원주",
+  "대구경북과학기술원(DGIST)":"디지스트 dgist 대구경북과학기술원",
+  "한국에너지공과대학교(KENTECH)":"한국에너지공대 켄텍 kentech 에너지공대",
+  "경인교육대학교":"경인교대 교대",
+  "부산교육대학교":"부산교대 교대",
+  "대구교육대학교":"대구교대 교대",
+  "광주교육대학교":"광주교대 교대",
+  "전주교육대학교":"전주교대 교대",
+  "청주교육대학교":"청주교대 교대",
+  "춘천교육대학교":"춘천교대 교대",
+  "진주교육대학교":"진주교대 교대",
+  "공주교육대학교":"공주교대 교대",
+  "서울여자대학교":"서울여대 서여대",
+  "경기대학교":"경기대 kgu",
+  "신한대학교":"신한대",
+  "을지대학교":"을지대 을지",
+  "차의과학대학교":"차의과대 차의과학대 cha 차대",
+  "경동대학교":"경동대 경동",
+};
+
+const QUESTION_TYPES = "학생부 확인 · 진로 동기 · 전공 적합성 · 학업 역량 · 문제 해결 · 탐구 과정 · 성장 과정 · 공동체 역량 · 논리적 사고 · 가치 판단";
+const MODE_BEHAVIOR = {
+  "기본형": "표준 난이도로 차분하게 진행하고, 학생이 답하기 어려워하면 질문의 의도를 한 문장 덧붙여 도와준다.",
+  "실전형": "실제 면접처럼 부연 설명을 최소화하고 질문만 간결하게 제시한다.",
+  "압박형": "학생 답변의 논리적 허점이나 근거 부족을 추가 질문으로 확인한다. 단, 인격적 공격이나 모욕적 표현은 절대 사용하지 않고 예의를 지킨다.",
+};
+const RUBRIC = ["질문이해","근거성","구체성","논리성","전공연계성","성찰","의사소통"];
+const RUBRIC_DESC = {
+  "질문이해":"질문의 핵심을 정확히 파악했는가",
+  "근거성":"자신의 경험과 사례를 근거로 답했는가",
+  "구체성":"추상적 표현보다 구체적 내용을 제시했는가",
+  "논리성":"주장-근거-결론이 자연스럽게 연결되는가",
+  "전공연계성":"활동과 지원 전공을 적절히 연결하는가",
+  "성찰":"경험에서 배운 점과 변화가 드러나는가",
+  "의사소통":"명확하고 이해하기 쉽게 말하는가",
+};
+
+/* ---------------- state ---------------- */
+let SAMPLE = null;
+let sampleResolved = false;
+const cfg = {};
+let transcript = [];      // {question, questionType, dataType, isFollow, answer}
+let coreCount = 0;
+let followCount = 0;
+let current = null;
+let busy = false;
+
+const $ = id => document.getElementById(id);
+
+/* ---------------- theme ---------------- */
+(function(){
+  let saved = null;
+  try { saved = localStorage.getItem("mi-theme"); } catch(e){}
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+  $("themeBtn").onclick = () => {
+    const cur = document.documentElement.getAttribute("data-theme");
+    const isDark = cur ? cur === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = isDark ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try { localStorage.setItem("mi-theme", next); } catch(e){}
+  };
+})();
+
+/* ---------------- AI 연결 (학교 서버 /api/ask 경유) ---------------- */
+// 이 앱은 학교 서버(백엔드)의 /api/ask 로 질문을 보내고, 서버가 학교 API 키로 AI를 호출합니다.
+// API 키는 브라우저(학생)에 절대 노출되지 않습니다.
+sampleResolved = true;
+$("startHint").textContent = "시작하면 학교 AI 면접관이 질문을 시작합니다. 로그인 없이 바로 사용할 수 있어요.";
+
+function parseJsonLoose(raw){
+  const s = String(raw == null ? "" : raw);
+  const tryP = t => { try { return JSON.parse(t); } catch(e){ return undefined; } };
+  let v = tryP(s.trim());
+  if (v !== undefined) return v;
+  const fence = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) { v = tryP(fence[1].trim()); if (v !== undefined) return v; }
+  const idxs = [s.indexOf("{"), s.indexOf("[")].filter(i => i >= 0);
+  const first = idxs.length ? Math.min.apply(null, idxs) : -1;
+  const last = Math.max(s.lastIndexOf("}"), s.lastIndexOf("]"));
+  if (first >= 0 && last > first) { v = tryP(s.slice(first, last + 1)); if (v !== undefined) return v; }
+  throw { code: "invalid_json", text: s };
+}
+
+// 학교 서버로 질문을 보내고 JSON 답을 받는다
+async function askJson(prompt){
+  let res;
+  try {
+    res = await fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt }),
+    });
+  } catch (e) {
+    throw { code: "network", message: "서버에 연결하지 못했습니다." };
+  }
+  let data = null;
+  try { data = await res.json(); } catch (e) {}
+  if (!res.ok || !data || data.error) {
+    const code = (data && data.error) || ("http_" + res.status);
+    throw { code: code, message: (data && data.message) || "" };
+  }
+  return parseJsonLoose(data.text || "");
+}
+
+/* ---------------- setup: populate ---------------- */
+let uniIndex = ""; // 선택된 대학 인덱스(문자열) 또는 ""
+(function initSetup(){
+  const search = $("uniSearch");
+  const list = $("uniList");
+  let matches = [];
+  let activeIdx = -1;
+
+  function renderList(){
+    const q = search.value.trim().toLowerCase();
+    matches = [];
+    UNIVERSITIES.forEach((u,i) => {
+      if (!q || u.name.toLowerCase().includes(q) || (u.region||"").toLowerCase().includes(q) || (UNI_ALIAS[u.name]||"").toLowerCase().includes(q)) matches.push(i);
+    });
+    list.innerHTML = "";
+    if (!matches.length) {
+      list.innerHTML = '<div class="combo-empty">검색 결과가 없습니다</div>';
+    } else {
+      matches.slice(0, 80).forEach((idx, k) => {
+        const u = UNIVERSITIES[idx];
+        const it = document.createElement("div");
+        it.className = "combo-item" + (k === activeIdx ? " active" : "");
+        it.setAttribute("role","option");
+        it.innerHTML = `<span>${esc(u.name)}</span><small>${esc(u.region||"")}</small>`;
+        it.addEventListener("mousedown", e => { e.preventDefault(); pick(idx); });
+        list.appendChild(it);
+      });
+    }
+    list.classList.remove("hidden");
+    search.setAttribute("aria-expanded","true");
+  }
+  function hideList(){ list.classList.add("hidden"); search.setAttribute("aria-expanded","false"); activeIdx = -1; }
+  function pick(i){ uniIndex = String(i); search.value = UNIVERSITIES[i].name; hideList(); fillAdmissions(i); }
+  function fillAdmissions(i){
+    const selAdm = $("selAdm");
+    selAdm.disabled = false;
+    selAdm.innerHTML = '<option value="">전형을 선택하세요</option>';
+    UNIVERSITIES[i].admissions.forEach((a,j) => { const o=document.createElement("option"); o.value=j; o.textContent=a.name; selAdm.appendChild(o); });
+    resetDept(); $("admInfo").classList.add("hidden");
+    if (UNIVERSITIES[i].admissions.length === 1) { selAdm.value = "0"; selAdm.dispatchEvent(new Event("change")); }
+  }
+  function invalidate(){
+    uniIndex = "";
+    const selAdm = $("selAdm");
+    selAdm.disabled = true; selAdm.innerHTML = '<option value="">먼저 대학을 선택하세요</option>';
+    resetDept(); $("admInfo").classList.add("hidden");
+  }
+  function scrollActive(){ const el = list.children[activeIdx]; if (el && el.scrollIntoView) el.scrollIntoView({ block:"nearest" }); }
+
+  search.addEventListener("focus", renderList);
+  search.addEventListener("input", () => { invalidate(); activeIdx = -1; renderList(); });
+  search.addEventListener("blur", () => { setTimeout(() => {
+    hideList();
+    if (uniIndex === "") { const ex = UNIVERSITIES.findIndex(u => u.name === search.value.trim()); if (ex >= 0) pick(ex); }
+  }, 160); });
+  search.addEventListener("keydown", e => {
+    if (list.classList.contains("hidden") && e.key === "ArrowDown") { renderList(); return; }
+    const max = Math.min(matches.length, 80) - 1;
+    if (e.key === "ArrowDown") { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, max); renderList(); scrollActive(); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); renderList(); scrollActive(); }
+    else if (e.key === "Enter") { if (activeIdx >= 0 && matches[activeIdx] !== undefined) { e.preventDefault(); pick(matches[activeIdx]); } }
+    else if (e.key === "Escape") { hideList(); }
+  });
+
+  $("selAdm").onchange = () => {
+    resetDept();
+    if (uniIndex === "") { $("admInfo").classList.add("hidden"); renderOfficial(null); return; }
+    const u = UNIVERSITIES[uniIndex]; const av = $("selAdm").value;
+    if (av === "") { $("admInfo").classList.add("hidden"); renderOfficial(null); return; }
+    const a = u.admissions[av];
+    $("admType").textContent = "면접 방식: " + a.type;
+    const crit = $("admCrit"); crit.innerHTML = "";
+    const lab = document.createElement("span"); lab.className="tag amber"; lab.textContent="평가요소"; crit.appendChild(lab);
+    a.crit.forEach(c => { const t=document.createElement("span"); t.className="tag"; t.textContent=c; crit.appendChild(t); });
+    renderOfficial(a.official || null);
+    $("admInfo").classList.remove("hidden");
+    const selDept = $("selDept"); selDept.disabled = false;
+    selDept.innerHTML = '<option value="">모집단위를 선택하세요</option>';
+    a.depts.forEach(d => { const o=document.createElement("option"); o.value=d; o.textContent=d; selDept.appendChild(o); });
+    const o2=document.createElement("option"); o2.value="__custom"; o2.textContent="직접 입력…"; selDept.appendChild(o2);
+  };
+  $("selDept").onchange = () => {
+    $("deptCustomWrap").classList.toggle("hidden", $("selDept").value !== "__custom");
+  };
+  function resetDept(){
+    const selDept = $("selDept");
+    selDept.disabled = true; selDept.innerHTML = '<option value="">먼저 전형을 선택하세요</option>';
+    $("deptCustomWrap").classList.add("hidden");
+  }
+  document.querySelectorAll('#modes .mode').forEach(m => {
+    m.querySelector("input").addEventListener("change", () => {
+      document.querySelectorAll('#modes .mode').forEach(x => x.classList.remove("sel"));
+      m.classList.add("sel");
+    });
+  });
+})();
+
+/* ---------------- saved reports ---------------- */
+function loadSaved(){
+  let arr = [];
+  try { arr = JSON.parse(localStorage.getItem("mi-reports") || "[]"); } catch(e){}
+  const wrap = $("savedWrap"), list = $("savedList");
+  if (!arr.length) { wrap.classList.add("hidden"); return; }
+  wrap.classList.remove("hidden"); list.innerHTML = "";
+  arr.slice().reverse().forEach(r => {
+    const item = document.createElement("div"); item.className = "saved-item";
+    const meta = document.createElement("div"); meta.className = "saved-meta";
+    meta.innerHTML = `<b>${esc(r.uni)} · ${esc(r.adm)}</b><span>${esc(r.dept)} · ${esc(r.date)}</span>`;
+    const right = document.createElement("div"); right.style.cssText="display:flex;align-items:center;gap:14px;";
+    const score = document.createElement("div"); score.className="score-chip"; score.textContent = r.total;
+    const view = document.createElement("button"); view.className="btn btn-outline"; view.style.cssText="padding:7px 13px;font-size:13px;"; view.textContent="보기";
+    view.onclick = () => showSavedReport(r);
+    const del = document.createElement("button"); del.className="link-btn"; del.textContent="삭제";
+    del.onclick = () => { deleteSaved(r.id); };
+    right.appendChild(score); right.appendChild(view); right.appendChild(del);
+    item.appendChild(meta); item.appendChild(right); list.appendChild(item);
+  });
+}
+function deleteSaved(id){
+  let arr = [];
+  try { arr = JSON.parse(localStorage.getItem("mi-reports") || "[]"); } catch(e){}
+  arr = arr.filter(r => r.id !== id);
+  try { localStorage.setItem("mi-reports", JSON.stringify(arr)); } catch(e){}
+  loadSaved();
+}
+loadSaved();
+
+/* ---------------- 학생부 입력 방식 (직접 / 생기부 PDF) ---------------- */
+(function initRecord(){
+  const tabType=$("tabType"), tabPdf=$("tabPdf"), zone=$("pdfZone"), input=$("pdfInput"), pick=$("pdfPick"), rec=$("inRecord");
+  function setStatus(msg, cls){ const s=$("pdfStatus"); s.innerHTML=msg; s.className="pdf-status"+(cls?(" "+cls):""); }
+  tabType.onclick=()=>{ tabType.classList.add("active"); tabPdf.classList.remove("active"); zone.classList.add("hidden"); };
+  tabPdf.onclick=()=>{ tabPdf.classList.add("active"); tabType.classList.remove("active"); zone.classList.remove("hidden"); };
+  pick.onclick=()=>input.click();
+  input.onchange=()=>{ if(input.files && input.files[0]) handlePdf(input.files[0]); };
+  ["dragover","dragenter"].forEach(e=>zone.addEventListener(e,ev=>{ ev.preventDefault(); zone.classList.add("drag"); }));
+  ["dragleave","dragend"].forEach(e=>zone.addEventListener(e,ev=>{ ev.preventDefault(); zone.classList.remove("drag"); }));
+  zone.addEventListener("drop",ev=>{ ev.preventDefault(); zone.classList.remove("drag"); const f=ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files[0]; if(f) handlePdf(f); });
+
+  async function handlePdf(file){
+    if(file.type && file.type.indexOf("pdf")<0 && !/\.pdf$/i.test(file.name||"")){ setStatus("PDF 파일만 올릴 수 있습니다.","err"); return; }
+    if(typeof pdfjsLib==="undefined"){ setStatus("PDF 분석 도구를 불러오지 못했습니다. 인터넷 연결을 확인하거나 <b>직접 입력</b>을 이용해 주세요.","err"); return; }
+    setStatus("생기부를 분석하는 중입니다…","");
+    try{
+      try { pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"; } catch(e){}
+      const buf=await file.arrayBuffer();
+      const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+      let text="";
+      for(let i=1;i<=pdf.numPages;i++){
+        setStatus(`생기부를 분석하는 중입니다… (${i} / ${pdf.numPages}쪽)`,"");
+        const page=await pdf.getPage(i);
+        const content=await page.getTextContent();
+        text+=content.items.map(it=>it.str).join(" ")+"\n";
+      }
+      text=text.replace(/[ \t]{2,}/g," ").replace(/\n{3,}/g,"\n\n").trim();
+      if(!text){ setStatus("PDF에서 글자를 추출하지 못했습니다. 스캔한 이미지 PDF일 수 있어요. <b>직접 입력</b>을 이용해 주세요.","err"); return; }
+      const MAX=7000; let truncated=false;
+      if(text.length>MAX){ text=text.slice(0,MAX); truncated=true; }
+      rec.value=text;
+      setStatus(`✅ 분석 완료 — 총 ${pdf.numPages}쪽에서 내용을 불러왔습니다`+(truncated?" (분량이 많아 앞부분 위주로 사용)":"")+". 아래 칸에서 확인·수정한 뒤 시작하세요.","ok");
+      rec.scrollIntoView({behavior:"smooth", block:"center"});
+    }catch(e){
+      setStatus("생기부 분석에 실패했습니다. 파일이 손상됐거나 스캔본일 수 있어요. <b>직접 입력</b>을 이용해 주세요.","err");
+    }
+  }
+})();
+
+/* ---------------- start interview ---------------- */
+$("startBtn").onclick = async () => {
+  const err = $("setupErr");
+  const uv = uniIndex, av = $("selAdm").value;
+  if (uv === "") { showErr(err, "대학을 검색해 선택해 주세요."); return; }
+  if (av === "") { showErr(err, "전형을 선택해 주세요."); return; }
+  let dept = $("selDept").value;
+  if (dept === "") { showErr(err, "모집단위를 선택해 주세요."); return; }
+  if (dept === "__custom") { dept = $("inDept").value.trim(); if (!dept){ showErr(err,"모집단위를 직접 입력해 주세요."); return; } }
+  err.classList.add("hidden");
+  // 서버 버전: AI 연결 확인은 서버가 담당. 오류는 면접 진행 중 안내됩니다.
+
+  const u = UNIVERSITIES[uv], a = u.admissions[av];
+  Object.assign(cfg, {
+    uni: u.name, region: u.region, adm: a.name, admType: a.type, crit: a.crit,
+    dept, major: $("inMajor").value.trim(),
+    mode: document.querySelector('input[name=mode]:checked').value,
+    count: parseInt($("selCount").value, 10),
+    record: $("inRecord").value.trim(),
+    official: a.official || null,
+  });
+  beginInterview();
+};
+
+function beginInterview(){
+  transcript = []; coreCount = 0; followCount = 0; current = null;
+  $("ivUni").textContent = cfg.uni;
+  $("ivMeta").textContent = `${cfg.adm} · ${cfg.dept}` + (cfg.major ? ` · 희망: ${cfg.major}` : "");
+  $("transcript").innerHTML = "";
+  go("interview"); window.scrollTo(0,0);
+  nextTurn();
+}
+
+/* ---------------- interview flow ---------------- */
+function buildContext(){
+  let ctx = `[대학] ${cfg.uni}\n[전형] ${cfg.adm}\n[면접 방식] ${cfg.admType}\n[모집단위] ${cfg.dept}\n`;
+  ctx += `[희망 전공·진로] ${cfg.major || "미입력"}\n`;
+  ctx += `[대학 평가요소] ${cfg.crit.join(", ")}\n`;
+  ctx += `[면접 모드] ${cfg.mode} — ${MODE_BEHAVIOR[cfg.mode]}\n`;
+  if (cfg.official) {
+    ctx += `\n[이 대학·전형의 공식 면접 방식 — 반드시 반영]\n형식: ${cfg.official.format}\n`;
+    (cfg.official.facts || []).forEach(f => { ctx += `- ${f}\n`; });
+    if (/제시문/.test(cfg.official.format)) {
+      ctx += `이 전형은 제시문 기반이므로, 학생부 확인 질문뿐 아니라 짧은 제시문(당신이 직접 만든 3~5문장 예시)을 제시하고 그 논지를 요약·비교하거나 견해를 논리적으로 설명하게 하는 사고력 질문도 섞어라. 이렇게 만든 제시문·문항은 실제 서울대 기출이 아니라 형식을 흉내 낸 AI 연습이며, questionType을 "제시문(AI연습)"으로 표시하라. 실제 기출 원문을 지어내 인용하지 마라.\n`;
+    }
+  }
+  ctx += `[학생부·활동 요약]\n${cfg.record || "(학생이 입력하지 않음. 이 경우 진로 동기·전공 적합성·가치 판단 등 일반 질문 중심으로 진행한다.)"}\n`;
+  if (cfg.record) ctx += `(위 학생부에 이름·학교명·수상 실적 등 개인정보가 포함되어 있어도 질문에 사용하지 말고, 블라인드 면접 원칙에 따라 활동·경험·배운 점 중심으로만 질문한다. 학생부 원문의 문장을 그대로 읽지 말고 핵심 활동을 근거로 자연스럽게 묻는다.)\n`;
+  ctx += `\n[진행 상황] 목표 핵심질문 ${cfg.count}개 중 현재 ${coreCount}개 완료, 현재 핵심질문의 꼬리질문 ${followCount}개.\n`;
+  ctx += `\n[지금까지의 면접 대화]\n`;
+  if (!transcript.length) ctx += "(아직 없음 — 첫 질문입니다)\n";
+  transcript.forEach(t => {
+    ctx += `${t.isFollow ? "  ↳ 꼬리질문" : "질문"}(${t.questionType}): ${t.question}\n`;
+    ctx += `  학생 답변: ${t.answer || "(무응답)"}\n`;
+  });
+  return ctx;
+}
+
+async function nextTurn(){
+  if (busy) return;
+  busy = true;
+  $("answerZone").classList.add("hidden");
+  $("curQ").classList.add("hidden");
+  $("thinking").classList.remove("hidden");
+  $("ivErr").classList.add("hidden");
+  $("curCard").classList.remove("hidden");
+
+  const mustFinish = coreCount >= cfg.count;
+
+  const instruction =
+`당신은 대한민국 대학 입학사정관이자 면접관입니다. 위 대학·전형의 실제 면접처럼 학생부종합전형 면접을 진행하세요.
+
+[규칙]
+- 한 번에 질문은 반드시 하나만 제시한다.
+- 질문은 위 [대학 평가요소]와 [모집단위], [학생부·활동 요약]에 근거해 만든다. 학생부 내용이 있으면 학생의 실제 활동을 근거로 질문한다.
+- 학생 답변이 추상적이거나 근거가 부족하거나 본인의 역할이 모호하면 구체화를 요구하는 꼬리질문(follow_up)을 한다. 충분하면 다음 핵심질문(next)으로 넘어간다.
+- 하나의 핵심질문에 대한 꼬리질문은 최대 2개까지만 한다.
+- 질문 유형은 다음 중에서 고른다: ${QUESTION_TYPES}.
+- 면접 모드 지침을 지킨다.
+- 모든 질문은 실제 대학 기출이 아니라 AI가 생성한 예상 질문이다.
+- 존댓말로 정중하게, 한 질문은 1~3문장으로 간결하게.
+
+[종료 조건]
+${mustFinish
+  ? "핵심질문 목표 수에 도달했습니다. 반드시 type을 \"finish\"로 반환하세요."
+  : "핵심질문 목표 수에 아직 도달하지 않았습니다. 상황에 맞게 follow_up 또는 next 를 반환하세요."}
+
+아래 JSON만 출력하세요. 다른 텍스트는 쓰지 마세요.
+{"type":"follow_up|next|finish","questionType":"질문 유형(한국어)","question":"학생에게 할 질문 (finish면 빈 문자열)"}`;
+
+  try {
+    const res = await askJson(buildContext() + "\n" + instruction);
+    let type = (res && res.type) || "next";
+    if (mustFinish) type = "finish";
+
+    if (type === "finish") { busy = false; runEvaluation(); return; }
+
+    if (type === "follow_up" && followCount >= 2) type = "next";
+
+    const isFollow = type === "follow_up";
+    if (isFollow) { followCount++; }
+    else { coreCount++; followCount = 0; }
+
+    current = {
+      question: (res.question || "").trim() || "본인의 지원 동기를 말씀해 주세요.",
+      questionType: (res.questionType || (isFollow ? "심화 확인" : "질문")).trim(),
+      dataType: isFollow ? "AI생성꼬리질문" : "AI생성예상",
+      isFollow,
+    };
+    renderCurrent();
+    busy = false;
+  } catch (e) {
+    busy = false;
+    if (e.code === "cancelled") return;
+    const msg = e.code === "no_key" ? "서버에 API 키가 설정되지 않았습니다. (관리자: GEMINI_API_KEY 환경변수를 확인하세요.)"
+      : e.code === "network" ? "서버에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요."
+      : (e.code === "rate_limited" || e.code === "upstream_error") ? "요청이 많거나 일시적 오류입니다. 잠시 후 다시 시도해 주세요."
+      : e.code === "invalid_json" ? "응답을 이해하지 못했습니다. 다시 시도해 주세요."
+      : "질문을 생성하지 못했습니다. 다시 시도해 주세요.";
+    showIvErr(msg, true);
+  }
+}
+
+function renderCurrent(){
+  $("thinking").classList.add("hidden");
+  $("curQ").classList.remove("hidden");
+  const meta = $("curMeta"); meta.innerHTML = "";
+  if (current.isFollow) meta.appendChild(mkBadge("follow","꼬리질문"));
+  meta.appendChild(mkBadge("type", current.questionType));
+  meta.appendChild(mkBadge("ai","AI생성예상"));
+  $("curQText").textContent = current.question;
+  $("answerInput").value = "";
+  updateCharCount();
+  $("answerZone").classList.remove("hidden");
+  updateProgress();
+  $("answerInput").focus();
+  $("curCard").scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+$("submitBtn").onclick = () => {
+  if (busy || !current) return;
+  const ans = $("answerInput").value.trim();
+  if (!ans) { showIvErr("답변을 입력해 주세요.", false); return; }
+  transcript.push({ ...current, answer: ans });
+  appendTranscript(transcript[transcript.length-1]);
+  current = null;
+  nextTurn();
+};
+$("finishEarlyBtn").onclick = () => {
+  if (busy) return;
+  const ans = $("answerInput").value.trim();
+  if (current && ans) { transcript.push({ ...current, answer: ans }); appendTranscript(transcript[transcript.length-1]); }
+  current = null;
+  if (!transcript.length) { showIvErr("평가하려면 최소 한 개의 답변이 필요합니다.", false); return; }
+  runEvaluation();
+};
+$("endBtn").onclick = () => {
+  if (transcript.length && confirm("면접을 종료하고 평가 보고서를 볼까요?")) { runEvaluation(); }
+  else if (!transcript.length && confirm("면접을 종료하고 설정 화면으로 돌아갈까요?")) { go("setup"); }
+};
+
+function appendTranscript(t){
+  const wrap = document.createElement("div"); wrap.className = "bubble past-q";
+  wrap.innerHTML = `<div class="avatar ai">面</div><div class="bubble-body"></div>`;
+  const body = wrap.querySelector(".bubble-body");
+  const meta = document.createElement("div"); meta.className="q-meta";
+  if (t.isFollow) meta.appendChild(mkBadge("follow","꼬리질문"));
+  meta.appendChild(mkBadge("type", t.questionType));
+  body.appendChild(meta);
+  const q = document.createElement("div"); q.className="q-text"; q.textContent = t.question; body.appendChild(q);
+  const abub = document.createElement("div"); abub.className="bubble"; abub.style.marginTop="10px";
+  abub.innerHTML = `<div class="avatar me">나</div><div class="bubble-body"><div class="bubble-name">내 답변</div><div class="a-text"></div></div>`;
+  abub.querySelector(".a-text").textContent = t.answer;
+  body.appendChild(abub);
+  $("transcript").appendChild(wrap);
+}
+
+function updateProgress(){
+  const done = Math.min(coreCount, cfg.count);
+  $("ivProg").textContent = `핵심질문 ${done} / ${cfg.count}` + (current && current.isFollow ? " · 꼬리질문" : "");
+  const pct = Math.min(100, Math.round((done / cfg.count) * 100));
+  $("ivFill").style.width = pct + "%";
+}
+
+/* ---------------- evaluation ---------------- */
+async function runEvaluation(){
+  go("report"); window.scrollTo(0,0);
+  $("repScore").textContent = "…";
+  $("repGrade").textContent = "AI 면접관이 답변을 평가하고 있습니다";
+  $("repCtx").textContent = "";
+  $("repBars").innerHTML = `<div class="thinking"><span class="dots"><span></span><span></span><span></span></span> 평가 보고서를 작성하는 중입니다… (최대 1분)</div>`;
+  $("repStrengths").innerHTML = ""; $("repImprove").innerHTML = ""; $("repPractice").innerHTML = "";
+
+  let convo = "";
+  transcript.forEach(t => {
+    convo += `${t.isFollow ? "꼬리질문" : "질문"}(${t.questionType}): ${t.question}\n학생 답변: ${t.answer || "(무응답)"}\n\n`;
+  });
+
+  const prompt =
+`당신은 대학 입학 면접 평가 전문가입니다. 아래 모의면접 내용을 평가하세요.
+
+[대학] ${cfg.uni}
+[전형] ${cfg.adm}
+[모집단위] ${cfg.dept}
+[희망 전공] ${cfg.major || "미입력"}
+[대학 평가요소] ${cfg.crit.join(", ")}
+
+[면접 대화]
+${convo}
+
+다음 7개 항목을 각각 1~5점(정수)으로 평가하세요. 기준:
+${RUBRIC.map(r => `- ${r}: ${RUBRIC_DESC[r]}`).join("\n")}
+
+평가 원칙:
+- 실제 대학 합격 가능성은 절대 단정하지 마세요.
+- 답변의 실제 내용을 근거로 구체적으로 평가하세요.
+- 개선점과 추천 질문은 이 학생이 바로 실천할 수 있게 구체적으로 쓰세요.
+- 격려하는 어조를 유지하되 솔직하게 쓰세요.
+
+아래 JSON만 출력하세요:
+{
+  "scores": { ${RUBRIC.map(r=>`"${r}": <1~5>`).join(", ")} },
+  "strengths": ["잘한 점 2~3개(각 한 문장)"],
+  "improvements": ["개선할 점 2~3개(각 한 문장, 구체적 조언 포함)"],
+  "practiceQuestions": ["추천 연습 질문 3개"],
+  "summary": "한 문장 총평"
+}`;
+
+  try {
+    const r = await askJson(prompt);
+    renderReport(r);
+  } catch (e) {
+    if (e.code === "cancelled") return;
+    $("repGrade").textContent = "";
+    $("repScore").textContent = "!";
+    $("repBars").innerHTML = `<div class="banner-err" style="margin:0;">평가를 생성하지 못했습니다. (${esc(e.code||"오류")}) 아래 버튼으로 다시 시도해 주세요.</div>
+      <div style="margin-top:12px;"><button class="btn btn-primary" id="retryEval">평가 다시 시도</button></div>`;
+    const rb = $("retryEval"); if (rb) rb.onclick = runEvaluation;
+  }
+}
+
+function bandColor(v){ return v >= 4 ? "var(--good)" : v >= 3 ? "var(--amber)" : "var(--bad)"; }
+
+function renderReport(r){
+  const scores = r.scores || {};
+  let sum = 0, n = 0;
+  RUBRIC.forEach(k => { const v = clamp(scores[k]); scores[k] = v; sum += v; n++; });
+  const total = Math.round((sum / (n * 5)) * 100);
+  const grade = total >= 85 ? "매우 우수한 답변이었습니다" : total >= 70 ? "전반적으로 좋은 답변이었습니다"
+    : total >= 55 ? "기본기는 갖췄고 보완이 필요합니다" : "핵심 역량을 더 연습해 봅시다";
+
+  $("repScore").innerHTML = `${total}<small> / 100</small>`;
+  $("repGrade").textContent = r.summary || grade;
+  $("repCtx").textContent = `${cfg.uni} · ${cfg.adm} · ${cfg.dept} · ${cfg.mode} · 질문 ${transcript.length}개`;
+
+  const bars = $("repBars"); bars.innerHTML = "";
+  RUBRIC.forEach(k => {
+    const v = scores[k]; const row = document.createElement("div"); row.className = "bar-row";
+    row.innerHTML = `<div class="bl" title="${RUBRIC_DESC[k]}">${k}</div>
+      <div class="bar-track"><div class="bar-val" style="width:0%;background:${bandColor(v)}"></div></div>
+      <div class="bn">${v.toFixed(1)}</div>`;
+    bars.appendChild(row);
+    requestAnimationFrame(() => { row.querySelector(".bar-val").style.width = (v/5*100) + "%"; });
+  });
+
+  fillList($("repStrengths"), r.strengths, "실제 활동을 근거로 답한 점이 좋았습니다.");
+  fillList($("repImprove"), r.improvements, "본인의 역할과 배운 점을 더 구체적으로 설명해 보세요.");
+  fillList($("repPractice"), r.practiceQuestions, "본인이 직접 수행한 부분은 무엇인가요?");
+
+  const rv = $("repReview"); rv.innerHTML = "";
+  transcript.forEach(t => {
+    const d = document.createElement("div"); d.className = "rv-qa";
+    d.innerHTML = `<div class="rv-q">${t.isFollow ? "↳ " : ""}${esc(t.question)}</div><div class="rv-a">${esc(t.answer || "(무응답)")}</div>`;
+    rv.appendChild(d);
+  });
+
+  saveReport(total);
+}
+
+function saveReport(total){
+  let arr = [];
+  try { arr = JSON.parse(localStorage.getItem("mi-reports") || "[]"); } catch(e){}
+  arr.push({
+    id: Date.now(), uni: cfg.uni, adm: cfg.adm, dept: cfg.dept, total,
+    date: new Date().toLocaleDateString("ko-KR", { year:"numeric", month:"long", day:"numeric" }),
+    report: captureReportHTML(),
+  });
+  if (arr.length > 30) arr = arr.slice(-30);
+  try { localStorage.setItem("mi-reports", JSON.stringify(arr)); } catch(e){}
+}
+function captureReportHTML(){
+  return {
+    score: $("repScore").innerHTML, grade: $("repGrade").textContent, ctx: $("repCtx").textContent,
+    bars: $("repBars").innerHTML, strengths: $("repStrengths").innerHTML,
+    improve: $("repImprove").innerHTML, practice: $("repPractice").innerHTML, review: $("repReview").innerHTML,
+  };
+}
+function showSavedReport(r){
+  const h = r.report || {};
+  $("repScore").innerHTML = h.score || r.total; $("repGrade").textContent = h.grade || "";
+  $("repCtx").textContent = h.ctx || `${r.uni} · ${r.adm} · ${r.dept} · ${r.date}`;
+  $("repBars").innerHTML = h.bars || ""; $("repStrengths").innerHTML = h.strengths || "";
+  $("repImprove").innerHTML = h.improve || ""; $("repPractice").innerHTML = h.practice || "";
+  $("repReview").innerHTML = h.review || "";
+  go("report"); window.scrollTo(0,0);
+}
+
+/* ---------------- report actions ---------------- */
+$("againBtn").onclick = () => { beginInterview(); };
+$("newBtn").onclick = () => { loadSaved(); go("setup"); window.scrollTo(0,0); };
+$("printBtn").onclick = () => window.print();
+
+/* ---------------- helpers ---------------- */
+function go(screen){
+  ["setup","interview","report"].forEach(s => $(s).classList.toggle("hidden", s !== screen));
+}
+function renderOfficial(o){
+  const box = $("officialBox");
+  if (!o) { box.classList.add("hidden"); box.innerHTML = ""; return; }
+  const ni = !!o.noInterview;
+  box.classList.toggle("no-interview", ni);
+  let h = ni
+    ? `<div class="oh"><span class="obadge no">면접 미실시</span> 이 전형의 선발 방식</div><div class="oformat"><b>방식:</b> ${esc(o.format)}</div>`
+    : `<div class="oh"><span class="obadge">공식 정보</span> 이 전형의 실제 면접 방식</div><div class="oformat"><b>형식:</b> ${esc(o.format)}</div>`;
+  if (o.facts && o.facts.length) h += `<ul>` + o.facts.map(f => `<li>${esc(f)}</li>`).join("") + `</ul>`;
+  const links = [];
+  if (o.source) links.push(`<a href="${esc(o.source.url)}" target="_blank" rel="noopener">${esc(o.source.name)}</a>${o.source.years ? ` (${esc(o.source.years)})` : ""}`);
+  if (o.source2) links.push(`<a href="${esc(o.source2.url)}" target="_blank" rel="noopener">${esc(o.source2.name)}</a>`);
+  if (links.length) h += `<div class="osrc">📎 ${ni ? "전형 상세 확인" : "실제 기출·제시문·예시답안 원문"}: ${links.join(" · ")}</div>`;
+  h += ni
+    ? `<div class="onote">※ 면접이 없는 전형이라 면접 대비는 필요하지 않습니다. 아래 연습은 다른 면접 전형 대비용 일반 연습으로만 활용하세요.</div>`
+    : `<div class="onote">※ 저작권상 기출 제시문·문항 원문은 앱에 싣지 않고 공식 출처로 안내합니다. 이 앱의 연습 질문은 위 형식을 반영한 <b>AI 예상 질문</b>입니다.</div>`;
+  box.innerHTML = h; box.classList.remove("hidden");
+}
+function mkBadge(cls, txt){ const b=document.createElement("span"); b.className="badge "+cls; b.textContent=txt; return b; }
+function clamp(v){ v = Math.round(Number(v)); if (isNaN(v)) v = 3; return Math.max(1, Math.min(5, v)); }
+function fillList(ul, arr, fallback){
+  ul.innerHTML = "";
+  const items = Array.isArray(arr) && arr.length ? arr : [fallback];
+  items.forEach(x => { const li=document.createElement("li"); li.textContent = String(x); ul.appendChild(li); });
+}
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function showErr(el, msg){ el.textContent = msg; el.classList.remove("hidden"); }
+function showIvErr(msg, retry){
+  const el = $("ivErr");
+  el.innerHTML = esc(msg) + (retry ? ' <button class="btn btn-outline" style="padding:5px 12px;font-size:12px;margin-left:8px;" id="ivRetry">다시 시도</button>' : "");
+  el.classList.remove("hidden");
+  if (retry) { const b=$("ivRetry"); if(b) b.onclick = () => { el.classList.add("hidden"); nextTurn(); }; }
+}
+function updateCharCount(){ $("charCount").textContent = $("answerInput").value.length + "자"; }
+$("answerInput").addEventListener("input", updateCharCount);
+$("answerInput").addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); $("submitBtn").click(); }
+});
+</script>
