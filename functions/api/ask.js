@@ -10,7 +10,7 @@ const CORS = {
 const JSON_HEADERS = { ...CORS, "Content-Type": "application/json; charset=utf-8" };
 
 // 사용할 Gemini 모델 (저렴하고 빠른 Flash). 필요하면 여기만 바꾸면 됩니다.
-const MODEL = "gemini-2.0-flash";
+const MODEL = "gemini-3.6-flash";
 
 export async function onRequestOptions() {
   return new Response(null, { headers: CORS });
