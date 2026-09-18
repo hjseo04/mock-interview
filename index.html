@@ -1639,6 +1639,10 @@ $("startBtn").onclick = async () => {
     official: a.official || null,
     modality: document.querySelector('input[name=modality]:checked').value,
   });
+  // 모바일 음성 자동재생 잠금 해제 (사용자 탭 제스처 안에서 미리 호출)
+  if (cfg.modality === "video" && "speechSynthesis" in window) {
+    try { const u = new SpeechSynthesisUtterance(" "); u.volume = 0; window.speechSynthesis.speak(u); } catch(e){}
+  }
   beginInterview();
 };
 
@@ -1798,6 +1802,7 @@ function setupRecognition(){
   recognition = new SR();
   recognition.lang = "ko-KR"; recognition.continuous = true; recognition.interimResults = true;
   recognition.onresult = e => {
+    if (!recognizing) return;
     let interim = "", finalT = "";
     for (let i = e.resultIndex; i < e.results.length; i++) {
       const tr = e.results[i][0].transcript;
@@ -1808,7 +1813,14 @@ function setupRecognition(){
     updateCharCount();
   };
   recognition.onend = () => { if (recognizing) { try { recognition.start(); } catch(e){} } };
-  recognition.onerror = () => {};
+  recognition.onerror = (ev) => {
+    const err = ev && ev.error;
+    if (err === "not-allowed" || err === "service-not-allowed" || err === "audio-capture") {
+      recognizing = false;
+      $("micBtn").classList.remove("rec"); $("micBtn").textContent = "🎤 답변 말하기";
+      $("micHint").textContent = "이 브라우저에서는 음성 받아쓰기가 안 됩니다. 답변을 아래 칸에 직접 입력해 주세요. (녹화는 정상 진행됩니다.)";
+    }
+  };
 }
 function toggleRecognition(){
   if (!recognition) return;
@@ -1879,7 +1891,7 @@ async function nextTurn(){
   $("curQ").classList.add("hidden");
   $("thinking").classList.remove("hidden");
   $("ivErr").classList.add("hidden");
-  $("curCard").classList.remove("hidden");
+  $("curCard").classList.toggle("hidden", cfg.modality === "video");
   if (cfg.modality === "video") { stopRecognition(); $("caption").textContent = "면접관이 다음 질문을 준비하고 있습니다…"; $("replayBtn").style.display = "none"; }
 
   const mustFinish = coreCount >= cfg.count;
@@ -1924,8 +1936,8 @@ ${mustFinish
       dataType: isFollow ? "AI생성꼬리질문" : "AI생성예상",
       isFollow,
     };
-    renderCurrent();
     busy = false;
+    renderCurrent();
   } catch (e) {
     busy = false;
     if (e.code === "cancelled") return;
