@@ -389,7 +389,7 @@
           <div class="mic-ic">🎥</div><b>동영상 면접</b>
           <span>면접관이 음성으로 질문하고, 카메라로 답변하는 모습을 녹화해 파일로 저장합니다.</span></label>
       </div>
-      <div class="hint" id="videoNote" style="display:none; margin-top:2px;">🎥 동영상 면접은 카메라·마이크 권한이 필요합니다. 시작할 때 브라우저가 허용을 물어봅니다. (권한을 허용해 주세요.)</div>
+      <div class="hint" id="videoNote" style="display:none; margin-top:2px; line-height:1.6;">🎥 <b>동영상 면접은 PC·노트북에서 이어폰(헤드셋)을 끼고</b> 하는 것을 권장합니다. (이어폰이 없으면 스피커·마이크가 서로 간섭해 소리·음성인식이 안 될 수 있어요.) 시작 시 <b>카메라·마이크 권한</b>을 허용해 주세요.<br>📱 휴대폰은 브라우저 제약으로 음성·녹화 저장이 어려우니 <b>텍스트 면접</b>을 권장합니다. (링크는 카카오톡 등 앱 안이 아니라 <b>Chrome·삼성인터넷</b>으로 여세요.)</div>
     </div>
 
     <div id="savedWrap" class="hidden" style="margin-bottom:22px;">
@@ -591,7 +591,7 @@
       <div class="card card-pad" style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
         <div>
           <b style="font-size:14.5px;">🎥 면접 녹화 영상</b>
-          <div class="hint" id="recSaveInfo" style="margin-top:3px;">답변하는 모습이 녹화되었습니다. 파일로 저장할 수 있어요.</div>
+          <div class="hint" id="recSaveInfo" style="margin-top:3px;">답변하는 모습이 녹화되었습니다. <b>PC·노트북(Chrome·Edge)</b>에서 저장이 가장 잘 됩니다.</div>
         </div>
         <button class="btn btn-primary" id="saveRecBtn">녹화 파일 저장</button>
       </div>
@@ -1733,7 +1733,7 @@ function startRecording(){
   recordedChunks = []; recordedBlob = null;
   try {
     let mime = "";
-    const cand = ["video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm","video/mp4"];
+    const cand = ["video/mp4","video/webm;codecs=vp9,opus","video/webm;codecs=vp8,opus","video/webm"];
     for (const c of cand) { if (window.MediaRecorder && MediaRecorder.isTypeSupported(c)) { mime = c; break; } }
     mediaRecorder = new MediaRecorder(mediaStream, mime ? { mimeType: mime } : undefined);
     mediaRecorder.ondataavailable = e => { if (e.data && e.data.size) recordedChunks.push(e.data); };
@@ -1846,7 +1846,7 @@ $("saveRecBtn").onclick = async () => {
   if (!recordedBlob || !recordedBlob.size) { $("recSaveInfo").textContent = "저장할 녹화 데이터가 없습니다."; return; }
   const ext = (recordedBlob.type || "").indexOf("mp4") >= 0 ? "mp4" : "webm";
   const stamp = new Date().toISOString().slice(0,16).replace(/[:T]/g,"-");
-  const fname = `모의면접_${cfg.uni}_${stamp}.${ext}`;
+  const fname = `mock-interview_${stamp}.${ext}`;
   try {
     const url = URL.createObjectURL(recordedBlob);
     const a = document.createElement("a");
