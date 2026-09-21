@@ -79,6 +79,21 @@ ajb-mock-interview/
 
 ---
 
+## (선택) 자연스러운 음성 — Google Cloud TTS 연동
+
+동영상 면접의 면접관 음성을 **자연스러운 신경망 음성(남/여 구분)** 으로 쓰려면, `GOOGLE_TTS_KEY` 를 추가로 등록하세요. (없어도 앱은 기기 내장 음성으로 작동합니다.)
+
+1. **[Google Cloud Console](https://console.cloud.google.com)** 접속(선생님 goedu.kr 계정) → 프로젝트 선택/생성
+2. **"Cloud Text-to-Speech API"** 검색 → **사용 설정(Enable)**
+3. 프로젝트에 **결제 계정 연결(Billing 사용 설정)** — ※ 무료 등급(신경망 음성 월 100만 자)이 있어 소량은 과금되지 않지만, API 사용에는 결제 계정 연결이 필요합니다.
+4. **사용자 인증 정보 → API 키 만들기** → 키 복사
+5. Cloudflare Pages → **Settings → Variables and secrets → Add** →
+   - 이름: **`GOOGLE_TTS_KEY`**, 값: 위 키 → 저장
+6. **Deployments → Retry deployment**(재배포)
+
+> 목소리는 `functions/api/tts.js` 의 `VOICES` 에서 바꿀 수 있습니다(기본: 남 `ko-KR-Neural2-C`, 여 `ko-KR-Neural2-A`).
+> 개인 키로 테스트한 뒤, 전체 공개 시 이 값만 학교 키로 교체하면 됩니다.
+
 ## 자주 묻는 질문
 
 - **비용은?** 호스팅(GitHub·Cloudflare)은 무료. **AI 사용료만** 학교 키로 발생(종량제). Gemini Flash는 저렴합니다.
@@ -88,4 +103,4 @@ ajb-mock-interview/
 
 ---
 
-문의나 수정이 필요하면 이 앱을 만든 대화로 돌아와 요청하세요. (동영상 면접 기능은 다음 단계로 추가 예정.)
+문의나 수정이 필요하면 이 앱을 만든 대화로 돌아와 요청하세요. (동영상 면접 기능은 다음 단계로 추가 예정)

@@ -1664,7 +1664,7 @@ async function beginInterview(){
     const img = $("personaImg"), src = INTERVIEWER_IMG[cfg.interviewer];
     if (src && src.indexOf("data:") === 0) { img.src = src; img.hidden = false; $("personaFallback").hidden = true; }
     else { img.hidden = true; $("personaFallback").hidden = false; }
-    $("personaName").textContent = (cfg.interviewer === "m" ? "남" : "여") + " 면접관";
+    $("personaName").textContent = "면접관";
   }
   $("ivUni").textContent = cfg.uni;
   $("ivMeta").textContent = `${cfg.adm} · ${cfg.dept}` + (cfg.major ? ` · 희망: ${cfg.major}` : "") + (isVideo ? " · 🎥 동영상" : "");
@@ -1778,13 +1778,41 @@ function stopVideo(){
   try { if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop(); } catch(e){}
   if (recTimer) { clearInterval(recTimer); recTimer = null; }
   $("recBadge").classList.add("hidden");
-  try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch(e){}
+  ttsSeq++; stopAudio();
   personaSpeaking(false);
   if (mediaStream) { mediaStream.getTracks().forEach(t => t.stop()); mediaStream = null; }
   $("camVideo").srcObject = null;
 }
 
-/* --- 음성 합성 (TTS) — 면접관 성별에 따라 목소리 구분 --- */
+/* --- 음성 합성 (TTS) — 서버(구글 신경망 음성) 우선, 실패 시 기기 음성 --- */
+let currentAudio = null;
+let ttsSeq = 0;
+function stopAudio(){
+  if (currentAudio) { try { currentAudio.pause(); } catch(e){} currentAudio = null; }
+  try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch(e){}
+}
+async function speak(text){
+  const seq = ++ttsSeq;
+  stopAudio();
+  personaSpeaking(true);
+  try {
+    const res = await fetch("/api/tts", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, gender: cfg.interviewer }) });
+    if (seq !== ttsSeq) return;
+    if (res.ok) {
+      const data = await res.json();
+      if (seq !== ttsSeq) return;
+      if (data && data.audio) {
+        const audio = new Audio("data:audio/mp3;base64," + data.audio);
+        currentAudio = audio;
+        audio.onended = () => { if (currentAudio === audio) { currentAudio = null; personaSpeaking(false); } };
+        audio.onerror = () => { if (currentAudio === audio) { currentAudio = null; speakDevice(text); } };
+        try { await audio.play(); return; } catch(e){ /* 모바일 자동재생 차단 → 기기 음성 시도 */ }
+      }
+    }
+  } catch(e) { /* 서버 TTS 실패 → 기기 음성 */ }
+  if (seq !== ttsSeq) return;
+  speakDevice(text);
+}
 function pickVoice(gender){
   if (!("speechSynthesis" in window)) return null;
   const vs = window.speechSynthesis.getVoices() || [];
@@ -1800,8 +1828,8 @@ if ("speechSynthesis" in window) {
   try { window.speechSynthesis.getVoices(); } catch(e){}
   window.speechSynthesis.onvoiceschanged = () => { try { window.speechSynthesis.getVoices(); } catch(e){} };
 }
-function speak(text){
-  if (!("speechSynthesis" in window)) return;
+function speakDevice(text){
+  if (!("speechSynthesis" in window)) { personaSpeaking(false); return; }
   try {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -1921,7 +1949,7 @@ async function nextTurn(){
   $("thinking").classList.remove("hidden");
   $("ivErr").classList.add("hidden");
   $("curCard").classList.toggle("hidden", cfg.modality === "video");
-  if (cfg.modality === "video") { stopRecognition(); $("caption").textContent = "면접관이 다음 질문을 준비하고 있습니다…"; $("replayBtn").style.display = "none"; }
+  if (cfg.modality === "video") { ttsSeq++; stopAudio(); stopRecognition(); $("caption").textContent = "면접관이 다음 질문을 준비하고 있습니다…"; $("replayBtn").style.display = "none"; }
 
   const mustFinish = coreCount >= cfg.count;
 
