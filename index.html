@@ -1652,10 +1652,6 @@ $("startBtn").onclick = async () => {
     official: a.official || null,
     modality: document.querySelector('input[name=modality]:checked').value,
   });
-  // 모바일 음성 자동재생 잠금 해제 (사용자 탭 제스처 안에서 미리 호출)
-  if (cfg.modality === "video" && "speechSynthesis" in window) {
-    try { const u = new SpeechSynthesisUtterance(" "); u.volume = 0; window.speechSynthesis.speak(u); } catch(e){}
-  }
   beginInterview();
 };
 
@@ -1816,6 +1812,7 @@ function speak(text){
     u.onstart = () => personaSpeaking(true);
     u.onend = () => personaSpeaking(false);
     u.onerror = () => personaSpeaking(false);
+    try { window.speechSynthesis.resume(); } catch(e){}
     window.speechSynthesis.speak(u);
   } catch(e){ personaSpeaking(false); }
 }
@@ -1868,7 +1865,7 @@ function stopRecognition(){
   if (recognition && recognizing) { recognizing = false; try { recognition.stop(); } catch(e){} }
   const b = $("micBtn"); if (b) { b.classList.remove("rec"); b.textContent = "🎤 답변 말하기"; }
 }
-$("micBtn").onclick = () => { ensureRecording(); toggleRecognition(); };
+$("micBtn").onclick = toggleRecognition;
 $("replayBtn").onclick = () => { if (current) speak(current.question); };
 
 /* --- 녹화 파일 저장 (일반 다운로드) --- */
@@ -1997,6 +1994,7 @@ function renderCurrent(){
   updateProgress();
 
   if (cfg.modality === "video") {
+    ensureRecording();
     const cap = $("caption");
     cap.innerHTML = `<span class="cap-badge">${current.isFollow ? "꼬리질문 · " : ""}AI생성예상</span><br>`;
     cap.appendChild(document.createTextNode(current.question));
@@ -2232,7 +2230,6 @@ function showIvErr(msg, retry){
 }
 function updateCharCount(){ $("charCount").textContent = $("answerInput").value.length + "자"; }
 $("answerInput").addEventListener("input", updateCharCount);
-$("answerInput").addEventListener("input", () => { if (cfg.modality === "video") ensureRecording(); });
 $("answerInput").addEventListener("keydown", e => {
   if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); $("submitBtn").click(); }
 });
