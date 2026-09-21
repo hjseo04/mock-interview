@@ -312,6 +312,7 @@
   .mcard:hover { border-color: var(--navy); }
   .mcard.sel { border-color: var(--navy); background: var(--navy-tint); box-shadow: inset 0 0 0 1px var(--navy); }
   .mcard input { position: absolute; opacity: 0; pointer-events: none; }
+  .mcard.disabled { opacity: .5; cursor: not-allowed; pointer-events: none; }
   .mcard .mic-ic { font-size: 22px; margin-bottom: 6px; line-height: 1; }
   .mcard b { display: block; font-size: 15px; margin-bottom: 4px; }
   .mcard span { font-size: 12.3px; color: var(--ink-soft); line-height: 1.45; display: block; }
@@ -1401,6 +1402,8 @@ const PWA_ICON_512 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAIA
 
 const $ = id => document.getElementById(id);
 
+const IS_MOBILE = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+
 /* ---------------- theme ---------------- */
 (function(){
   let saved = null;
@@ -1558,6 +1561,23 @@ let uniIndex = ""; // 선택된 대학 인덱스(문자열) 또는 ""
       $("videoNote").style.display = m.querySelector("input").value === "video" ? "block" : "none";
     });
   });
+
+  // 모바일: 동영상 면접 비활성화 (음성·마이크 제약 + 마이크 점유로 다른 앱 소리 방해)
+  if (IS_MOBILE) {
+    const vInput = document.querySelector('#modalityCards input[value=video]');
+    const vCard = vInput ? vInput.closest('.mcard') : null;
+    const tInput = document.querySelector('#modalityCards input[value=text]');
+    if (vInput && vCard && tInput) {
+      vInput.disabled = true;
+      vCard.classList.add("disabled");
+      vCard.classList.remove("sel");
+      const sp = vCard.querySelector("span");
+      if (sp) sp.textContent = "휴대폰에서는 이용할 수 없어요. 동영상 면접은 PC·노트북에서 이용하세요.";
+      tInput.checked = true;
+      tInput.closest('.mcard').classList.add("sel");
+      $("videoNote").style.display = "none";
+    }
+  }
 })();
 
 /* ---------------- saved reports ---------------- */
@@ -1650,7 +1670,7 @@ $("startBtn").onclick = async () => {
     count: parseInt($("selCount").value, 10),
     record: $("inRecord").value.trim(),
     official: a.official || null,
-    modality: document.querySelector('input[name=modality]:checked').value,
+    modality: IS_MOBILE ? "text" : document.querySelector('input[name=modality]:checked').value,
   });
   beginInterview();
 };
@@ -1833,7 +1853,7 @@ function speakDevice(text){
   try {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "ko-KR"; u.rate = 0.95;
+    u.lang = "ko-KR"; u.rate = 1.05;
     u.pitch = cfg.interviewer === "m" ? 0.85 : cfg.interviewer === "f" ? 1.12 : 1.0;
     const v = pickVoice(cfg.interviewer);
     if (v) u.voice = v;

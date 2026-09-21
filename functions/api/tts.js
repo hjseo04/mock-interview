@@ -37,7 +37,7 @@ export async function onRequestPost(context) {
       body: JSON.stringify({
         input: { text },
         voice: { languageCode: "ko-KR", name: voiceName },
-        audioConfig: { audioEncoding: "MP3", speakingRate: 0.98, pitch: 0.0 },
+        audioConfig: { audioEncoding: "MP3", speakingRate: 1.05, pitch: 0.0 },
       }),
     });
 
