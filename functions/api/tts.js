@@ -25,6 +25,13 @@ export async function onRequestPost(context) {
     if (!key) return json({ error: "no_tts_key", message: "서버에 GOOGLE_TTS_KEY가 설정되지 않았습니다." }, 500);
 
     let body; try { body = await request.json(); } catch (e) { body = {}; }
+
+    // 학교 입장 코드 검사 (ACCESS_CODE 환경변수가 설정된 경우에만 적용)
+    const accessCode = env.ACCESS_CODE;
+    if (accessCode && (!body || body.code !== accessCode)) {
+      return json({ error: "bad_code", message: "학교 입장 코드가 올바르지 않습니다." }, 403);
+    }
+
     const text = (body && typeof body.text === "string") ? body.text.slice(0, 1200) : "";
     if (!text.trim()) return json({ error: "no_text", message: "text가 비어 있습니다." }, 400);
     const gender = (body && body.gender === "m") ? "m" : "f";

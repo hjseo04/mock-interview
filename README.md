@@ -94,6 +94,20 @@ ajb-mock-interview/
 > 목소리는 `functions/api/tts.js` 의 `VOICES` 에서 바꿀 수 있습니다(기본: 남 `ko-KR-Neural2-C`, 여 `ko-KR-Neural2-A`).
 > 개인 키로 테스트한 뒤, 전체 공개 시 이 값만 학교 키로 교체하면 됩니다.
 
+## (권장) 우리 학교 학생만 쓰게 하기 — 입장 코드
+
+외부 학원·타학교 학생이 링크를 알아도 **AI를 쓰지 못하게** 막아, 학교 사용료가 새는 것을 방지합니다.
+
+1. Cloudflare Pages → **Settings → Environment variables → Add**
+   - 이름: **`ACCESS_CODE`**, 값: 학생에게만 알려줄 **암호**(예: `baekseok2026`) → 저장
+2. **Deployments → Retry deployment**(재배포)
+3. 이제 앱은 처음 AI를 호출할 때 **입장 코드 입력창**을 띄우고, 코드가 맞아야만 작동합니다.
+   (코드는 학생 기기에 저장되어 다음부터는 다시 묻지 않습니다.)
+4. 학생에게는 **링크 + 입장 코드**를 함께 안내하세요. 코드가 외부로 새면 값만 바꿔(재배포) 즉시 무효화할 수 있습니다.
+
+> 💡 `ACCESS_CODE`를 설정하지 않으면 입장 코드 없이 누구나 쓸 수 있습니다(테스트 단계에 편리).
+> 💡 추가 안전장치로 Google Cloud / Gemini의 **예산·사용량 한도(budget/quota)**를 걸어 두면, 만약의 경우에도 지출 상한이 보장됩니다.
+
 ## 자주 묻는 질문
 
 - **비용은?** 호스팅(GitHub·Cloudflare)은 무료. **AI 사용료만** 학교 키로 발생(종량제). Gemini Flash는 저렴합니다.

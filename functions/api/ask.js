@@ -25,6 +25,13 @@ export async function onRequestPost(context) {
     }
     let body;
     try { body = await request.json(); } catch (e) { body = {}; }
+
+    // 학교 입장 코드 검사 (ACCESS_CODE 환경변수가 설정된 경우에만 적용)
+    const accessCode = env.ACCESS_CODE;
+    if (accessCode && (!body || body.code !== accessCode)) {
+      return json({ error: "bad_code", message: "학교 입장 코드가 올바르지 않습니다." }, 403);
+    }
+
     const prompt = (body && typeof body.prompt === "string") ? body.prompt : "";
     if (!prompt.trim()) return json({ error: "no_prompt", message: "prompt가 비어 있습니다." }, 400);
 
