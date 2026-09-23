@@ -11,8 +11,11 @@ const CORS = {
 };
 const JSON_HEADERS = { ...CORS, "Content-Type": "application/json; charset=utf-8" };
 
-// 성별별 목소리 (Neural2 = 자연스러운 신경망 음성)
-const VOICES = { m: "ko-KR-Neural2-C", f: "ko-KR-Neural2-A" };
+// 성별별 목소리 (Chirp3-HD = 가장 자연스러운 최신 음성)
+const VOICES = { m: "ko-KR-Chirp3-HD-Charon", f: "ko-KR-Chirp3-HD-Aoede" };
+// Chirp3가 실패할 경우를 대비한 예비 음성 (Neural2)
+const FALLBACK_VOICES = { m: "ko-KR-Neural2-C", f: "ko-KR-Neural2-A" };
+const SPEAKING_RATE = 1.0; // 1.0 = 표준 속도(또박또박). 빠르게: 1.1, 느리게: 0.95
 
 export async function onRequestOptions() {
   return new Response(null, { headers: CORS });
@@ -35,19 +38,28 @@ export async function onRequestPost(context) {
     const text = (body && typeof body.text === "string") ? body.text.slice(0, 1200) : "";
     if (!text.trim()) return json({ error: "no_text", message: "text가 비어 있습니다." }, 400);
     const gender = (body && body.gender === "m") ? "m" : "f";
-    const voiceName = VOICES[gender];
-
     const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${encodeURIComponent(key)}`;
-    const upstream = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        input: { text },
-        voice: { languageCode: "ko-KR", name: voiceName },
-        audioConfig: { audioEncoding: "MP3", speakingRate: 1.05, pitch: 0.0 },
-      }),
-    });
 
+    // Chirp3-HD 음성으로 먼저 시도 → 실패하면 Neural2로 자동 대체
+    async function synth(voiceName) {
+      // 참고: Chirp3-HD 음성은 pitch를 지원하지 않으므로 넣지 않습니다.
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          input: { text },
+          voice: { languageCode: "ko-KR", name: voiceName },
+          audioConfig: { audioEncoding: "MP3", speakingRate: SPEAKING_RATE },
+        }),
+      });
+      return res;
+    }
+
+    let upstream = await synth(VOICES[gender]);
+    if (!upstream.ok) {
+      // Chirp3 실패 → 예비 음성(Neural2)으로 재시도
+      upstream = await synth(FALLBACK_VOICES[gender]);
+    }
     if (!upstream.ok) {
       const detail = (await upstream.text()).slice(0, 500);
       return json({ error: "tts_upstream_error", status: upstream.status, message: detail }, 502);
