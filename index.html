@@ -7,8 +7,9 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="양주백석고 모의면접">
-<link rel="manifest" id="pwaManifest">
-<link rel="apple-touch-icon" id="appleIcon">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>양주백석고 AI 모의면접</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2342,30 +2343,17 @@ $("answerInput").addEventListener("keydown", e => {
   if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); $("submitBtn").click(); }
 });
 
-/* ---------------- PWA (앱 설치) ---------------- */
+/* ---------------- PWA (앱 설치) ----------------
+   manifest.webmanifest / icon-192.png / icon-512.png 는 실제 파일로 제공됩니다(head 참고).
+   여기서는 서비스워커만 등록해, 안드로이드가 '진짜 앱(PWA)'으로 설치하도록 합니다.
+   (서비스워커는 네트워크 우선이라 재배포 내용이 바로 반영되고, API 호출은 건드리지 않습니다.) */
 (function initPWA(){
   try {
-    const icons = [];
-    if (PWA_ICON_192 && PWA_ICON_192.indexOf("data:") === 0) icons.push({ src: PWA_ICON_192, sizes: "192x192", type: "image/png", purpose: "any" });
-    if (PWA_ICON_512 && PWA_ICON_512.indexOf("data:") === 0) icons.push({ src: PWA_ICON_512, sizes: "512x512", type: "image/png", purpose: "any maskable" });
-    const manifest = {
-      name: "양주백석고 AI 모의면접",
-      short_name: "양주백석고 모의면접",
-      start_url: ".",
-      scope: ".",
-      display: "standalone",
-      orientation: "portrait",
-      background_color: "#f5f6f9",
-      theme_color: "#2b4a8b",
-      lang: "ko",
-      description: "양주백석고 3학년 수시 면접 대비 AI 모의면접",
-      icons: icons,
-    };
-    const blob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
-    const link = document.getElementById("pwaManifest");
-    if (link) link.href = URL.createObjectURL(blob);
-    const apple = document.getElementById("appleIcon");
-    if (apple && PWA_ICON_192 && PWA_ICON_192.indexOf("data:") === 0) apple.href = PWA_ICON_192;
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function(){
+        navigator.serviceWorker.register("sw.js").catch(function(){});
+      });
+    }
   } catch(e){}
 })();
 </script>
